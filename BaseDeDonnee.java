@@ -22,4 +22,38 @@ class BaseDeDonnee{
     private int cIdLocataire = 0;
     private int cIdType = 0;
     private int cIdBiens = 0;
+    
+    // commandes
+     void supprimerLoc(int n){
+        vLocId[n]=vLocId[cIdLocataire];
+        vLocId[cIdLocataire]=0;
+        vLocNo[n]=vLocNo[cIdLocataire];
+        vLocNo[cIdLocataire]=0;
+        vLocAd[n]=vLocAd[cIdLocataire];
+        vLocAd[cIdLocataire]=0;
+        vLocBi[n]=vLocBi[cIdLocataire];
+        vLocBi[cIdLocataire]=0;         
+        cIdLocataire=cIdLocataire-1;
+    }
+    void supprimerBien(int n){
+        vBiId[n]=vBiId[cIdBiens];
+        vBiId[cIdBiens]=0;
+        vBiTy[n]=vBiTy[cIdBiens];
+        vBiTy[cIdBiens]=0;
+        vBiDes[n]=vBiDes[cIdBiens];
+        vBiDes[cIdBiens]=0;
+        vBiLoc[n]=vBiLoc[cIdBiens];
+        vBiLoc[cIdBiens]=0;         
+        cIdBiens=cIdBiens-1;
+    }
+    void supprimerTypeBien(int n){
+        vTyBiId[n]=vTyBiId[cIdType];
+        vTyBiId[cIdType]=0;
+        vTyBiNo[n]=vTyBiNo[cIdType];
+        vTyBiNo[cIdType]=0;         
+        cIdType=cIdType-1;
+    }
+    void ajouterLoc(){
+        System.out.print("")
+    }
 }
