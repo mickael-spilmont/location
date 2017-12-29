@@ -6,18 +6,18 @@ import java.io.*;
  * @author Spilmont Mickael
  */
 
-public class GestionFichier {
+class GestionFichier {
     /**
      * Contiens le chemin relatif du fichier ainsi que son nom sous la forme sauvegarde/nom_du_fichier.bin
      */
-    private String cheminFichier;
+    String cheminFichier;
 
     /**
      * Constructeur de GestionFichier
      * @param nomFichier
      * Le nom du fichier indiqué par l'utilisateur
      */
-    private GestionFichier(String nomFichier){
+    GestionFichier(String nomFichier){
         cheminFichier = "sauvegardes/" + nomFichier + ".bin";
     }
 
@@ -25,28 +25,24 @@ public class GestionFichier {
      * Met le fichier de sauvegarde en mémoire tampon pour l'écriture
      * @throws IOException
      */
-    private void ecrire() throws IOException{
+    DataOutputStream ecrire() throws IOException{
         DataOutputStream dos;
 
         dos = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(cheminFichier)));
 
-        dos.writeUTF("Ceci est un test");
-        dos.close();
+        return dos;
     }
 
     /**
      * Met le fichier de sauvegarde en mémoire tampon pour la lecture
      * @throws IOException
      */
-    private void lire() throws IOException{
+    DataInputStream lire() throws IOException{
         DataInputStream dis;
 
         dis = new DataInputStream(new BufferedInputStream(new FileInputStream(cheminFichier)));
 
-        String ligne1 = dis.readUTF();
-        dis.close();
-
-        System.out.println(ligne1);
+        return dis;
     }
 
     /**
@@ -54,7 +50,7 @@ public class GestionFichier {
      * @return
      * retourne vrai si le fichier est trouvé et faux dans le cas contraire
      */
-    private boolean existe(){
+    boolean existe(){
         File fichier = new File(cheminFichier);
 
         return (fichier.exists());
@@ -63,7 +59,7 @@ public class GestionFichier {
     /**
      * Créer le repertoire "sauvegardes" si ce dernier n'est pas présent
      */
-    private void creerRepertoireSauvegardes(){
+    void creerRepertoireSauvegardes(){
         File repertoire = new File("sauvegardes");
 //        peut renvoyer un booleen
         repertoire.mkdir();
@@ -72,11 +68,11 @@ public class GestionFichier {
     /**
      * Liste les fichiers présente dans le répertoire "sauvegardes" et les affiches
      */
-    private void listerFichier(){
+    void listerFichier(){
         File repertoire = new File("sauvegardes");
         String[] liste = repertoire.list();
 
-        for (String nomFichier : liste){
+        for (String nomFichier : liste) {
             System.out.println(nomFichier);
         }
     }

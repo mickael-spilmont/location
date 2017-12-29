@@ -1,6 +1,9 @@
 import java.util.Scanner;
+
 class Menu{
+    BaseDeDonnees base = new BaseDeDonnees();
     Scanner Scan = new Scanner(System.in);
+
     void menuPrincipal(){
         System.out.println("\n----------------------------------\nLoSC (Locataires Sympas et Calmes)\n----------------------------------");
         System.out.println("1) Gestion des locataires (defaut)\n2) Gestion des biens\n3) Gestion des types de biens\n4) Gestion des locations\n5) sauvegarde/restauration des données dans des fichiers\n6) Quitter le progamme");
@@ -121,6 +124,42 @@ class Menu{
                 menu1();
                 break;
             default:
+//                Juste un test que tu peux supprimer, le but étais de vérifier que l'on avais bien accès à la base depuis
+//                le menu, c'est le cas.
+//
+//                System.out.println("Ajout de 3 locataires");
+//                String nomLocataire = "Smith";
+//                String prenomLocataire = "Jhon";
+//                String adresseLocataire = "13 Bvd Louis XIV";
+//                String telephoneLocataire = "0658632459";
+//
+//                base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
+//
+//                nomLocataire = "Nolan";
+//                prenomLocataire = "Victor";
+//                adresseLocataire = "14 rue Charle V";
+//                telephoneLocataire = "0656841236";
+//
+//                base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
+//
+//                nomLocataire = "Laren";
+//                prenomLocataire = "Victoria";
+//                adresseLocataire = "14 rue du moulin";
+//                telephoneLocataire = "0658632145";
+//
+//                base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
+//
+//                System.out.println(base.afficherLocataire(0));
+//                System.out.println(base.afficherLocataire(1));
+//                System.out.println(base.afficherLocataire(2));
+//
+//                System.out.println("Supression du locataire ID 2");
+//
+//                base.supprimerLocataire(2);
+//
+//                System.out.println(base.afficherLocataire(0));
+//                System.out.println(base.afficherLocataire(1));
+//                System.out.println(base.afficherLocataire(2));
                 menu5();
         }  
     }
@@ -157,6 +196,15 @@ class Menu{
             default:
                 menu5();
         }  
+    }
+
+    /**
+     * Permet d'effectuer des tests sur la classe Menu afin de s'assurer de son bon fonctionnement
+     * @param args
+     */
+    public static void main(String[] args){
+        Menu monMenu = new Menu();
+        monMenu.menu1();
     }
 }
 

@@ -1,8 +1,10 @@
-import java.util.Scanner;
+/**
+ * <b></>Cette classe est la base données du programme, elle contient à la fois les données stockées sous forme de
+ * tableau et les outils permettant d'exploiter celles-ci</b>
+ * @author Duhamel Alexandre ; Spilmont Mickael
+ */
 
-class BaseDeDonnee{
-    Scanner Scan = new Scanner(System.in);
-
+class BaseDeDonnees {
 //    base locataires
 
     /**
@@ -62,17 +64,17 @@ class BaseDeDonnee{
 //    compteurID
 
     /**
-     * Tableau contenant l'emplacement du dernier indice contenant des données, puis le plus grand ID locataire
+     * Tableau avec l'emplacement du dernier indice contenant des données, puis le plus grand ID locataire
      */
     int compteurLocataire[] = {-1, 0};
 
     /**
-     * Tableau contenant l'emplacement du dernier indice contenant des données, puis le plus grand ID type
+     * Tableau avec l'emplacement du dernier indice contenant des données, puis le plus grand ID type
      */
     int compteurType[] = {-1, 0};
 
     /**
-     * Tableau contenant l'emplacement du dernier indice contenant des données, puis le plus grand ID bien
+     * Tableau avec l'emplacement du dernier indice contenant des données, puis le plus grand ID bien
      */
     int compteurBien[] = {-1, 0};
 
@@ -135,6 +137,62 @@ class BaseDeDonnee{
 
 //    Méthodes de suppression
 
+    /**
+     * Méthode permettant la supression d'un locataire désigné par son emplacement dans le tableau.
+     * La méthode remplace le locataire à supprimer par le dernier locataire du tableau, ainsi le trou dans la base de
+     * données est comblé.
+     * @param numCase
+     * numéro de la case du tableau contenant du locataire concerné
+     */
+    void supprimerLocataire(int numCase){
+
+        int dernierLoacataire = compteurLocataire[0];
+        compteurLocataire[0] --;
+
+        idLocataire[numCase] = idLocataire[dernierLoacataire];
+        idLocataire[dernierLoacataire] = 0;
+
+        for (int i = 0; i < 4; i++) {
+            donneesLocataire[numCase][i] = donneesLocataire[dernierLoacataire][i];
+            donneesLocataire[dernierLoacataire][i] = null;
+        }
+        for (int j = 0; j < 5; j++) {
+            idBienLocataire[numCase][j] = idBienLocataire[dernierLoacataire][j];
+            idBienLocataire[dernierLoacataire][j] = 0;
+        }
+    }
+
+//    /**
+//     * Méthode permettant la supression d'un locataire désigné par son emplacement dans le tableau, par compactage de
+//     * la base de donnée, en décalant tout les locataires d'un cran vers la gauche du tableau.
+//     * Si le locataire désigné est le dernier, dans ce cas ces données sont simplement remisent à 0 ou null.
+//     * @param numCase
+//     * numéro de la case du tableau contenant du locataire concerné
+//     */
+//    void supprimerLocataire(int numCase){
+//        // Vérifie si le locataire est le dernier
+//        if (numCase == 499){
+//            idLocataire[numCase] = 0;
+//            for (int i = 0 ; i < 4 ; i++){
+//                donneesLocataire[numCase][i] = null;
+//            }
+//            for (int j = 0; j < 5; j++){
+//                idBienLocataire[numCase][j] = 0;
+//            }
+//        }
+//        // Si le locataire n'est pas le dernier, lance la supression par compactage de la base
+//        else{
+//            for (int i = numCase ; i <= compteurLocataire[0] ; i++){
+//                idLocataire[i] = idLocataire[i +1];
+//                for (int j = 0 ; j < 4 ; j++){
+//                    donneesLocataire[i][j] = donneesLocataire[i +1][j];
+//                }
+//                for (int k = 0 ; k < 5 ; k++){
+//                    idBienLocataire[i][k] = idBienLocataire[i +1][k];
+//                }
+//            }
+//        }
+//    }
 
 
 //    Méthodes de requêtes
@@ -142,7 +200,7 @@ class BaseDeDonnee{
     /**
      * Affiche les info du locataire ciblé
      * @param numCase
-     * numéro de la case du locataire concerné
+     * numéro de la case du tableau contenant du locataire concerné
      * @return
      * retourne la fiche du locataire sous forme de chaine de caractères
      */
@@ -160,11 +218,14 @@ class BaseDeDonnee{
 
 //    Main
 
+    /**
+     * Permet d'effectuer des tests sur la classe BaseDeDonnees afin de s'assurer de son bon fonctionnement
+     * @param args
+     */
     public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        BaseDeDonnee base = new BaseDeDonnee();
+        BaseDeDonnees base = new BaseDeDonnees();
 
-        System.out.println("Ajout de locataire");
+        System.out.println("Ajout de 3 locataires");
         String nomLocataire = "Smith";
         String prenomLocataire = "Jhon";
         String adresseLocataire = "13 Bvd Louis XIV";
@@ -172,6 +233,30 @@ class BaseDeDonnee{
 
         base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
 
+        nomLocataire = "Nolan";
+        prenomLocataire = "Victor";
+        adresseLocataire = "14 rue Charle V";
+        telephoneLocataire = "0656841236";
+
+        base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
+
+        nomLocataire = "Laren";
+        prenomLocataire = "Victoria";
+        adresseLocataire = "14 rue du moulin";
+        telephoneLocataire = "0658632145";
+
+        base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
+
         System.out.println(base.afficherLocataire(0));
+        System.out.println(base.afficherLocataire(1));
+        System.out.println(base.afficherLocataire(2));
+
+        System.out.println("Supression du locataire ID 2");
+
+        base.supprimerLocataire(2);
+
+        System.out.println(base.afficherLocataire(0));
+        System.out.println(base.afficherLocataire(1));
+        System.out.println(base.afficherLocataire(2));
     }
 }
