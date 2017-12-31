@@ -3,6 +3,8 @@
  * tableau et les outils permettant d'exploiter celles-ci</b>
  * @author Duhamel Alexandre ; Spilmont Mickael
  */
+import java.util.Arrays;
+import java.util.Comparator;
 
 class BaseDeDonnees {
 //    base locataires
@@ -215,6 +217,46 @@ class BaseDeDonnees {
 
         return resultat;
     }
+    
+    /**
+     * Affiche la liste des locataire ayant loué le type de bien passé en parametre
+     * @param indiceType
+     * Identifiant du type de bien
+     */
+    void afficherListeLocataireLoueType(int indiceType){
+        for (int i=0 ; i<=clesBien[0].length ; i++){
+            if (clesBien[i][1]==indiceType){
+                afficherLocataire(clesBien[i][2]);
+            }
+        }
+    }
+
+     /**
+     * Affiche la liste des locataire par ordre alphabetique, ainçi que le totalité de leurs icentifiants
+     * Affiche la liste directement sur le terminal
+     */
+    void afficherAlphaLoc(){
+        String data [][]=new String [(compteurLocataire[0])+1][4];
+        for (int i=0 ; i<data.length ; i++){
+            data[i][0]=donneesLocataire[i][0];
+            data[i][1]=donneesLocataire[i][1];
+            data[i][2]=donneesLocataire[i][2];
+            data[i][3]=donneesLocataire[i][3];
+        }
+        Arrays.sort(data, new Comparator<String[]>() {
+            @Override
+            public int compare(final String[] entry1, final String[] entry2) {
+                final String time1 = entry1[0];
+                final String time2 = entry2[0];
+                return time1.compareTo(time2);
+            }
+        });
+        for (final String[] s : data) {
+            System.out.println(s[0] + "\t" + s[1] + "\t" + s[2] + "\t" + s[3]);
+        }
+    }
+
+
 
 //    Main
 
@@ -226,21 +268,21 @@ class BaseDeDonnees {
         BaseDeDonnees base = new BaseDeDonnees();
 
         System.out.println("Ajout de 3 locataires");
-        String nomLocataire = "Smith";
+        String nomLocataire = "Nolan";
         String prenomLocataire = "Jhon";
         String adresseLocataire = "13 Bvd Louis XIV";
         String telephoneLocataire = "0658632459";
 
         base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
 
-        nomLocataire = "Nolan";
+        nomLocataire = "Smith";
         prenomLocataire = "Victor";
         adresseLocataire = "14 rue Charle V";
         telephoneLocataire = "0656841236";
 
         base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
 
-        nomLocataire = "Laren";
+        nomLocataire = "Yaren";
         prenomLocataire = "Victoria";
         adresseLocataire = "14 rue du moulin";
         telephoneLocataire = "0658632145";
@@ -253,10 +295,13 @@ class BaseDeDonnees {
 
         System.out.println("Supression du locataire ID 2");
 
-        base.supprimerLocataire(2);
+        //base.supprimerLocataire(2);
 
         System.out.println(base.afficherLocataire(0));
         System.out.println(base.afficherLocataire(1));
         System.out.println(base.afficherLocataire(2));
+        
+        System.out.println(base.compteurLocataire[0]);
+        base.afficherAlphaLoc();
     }
 }
