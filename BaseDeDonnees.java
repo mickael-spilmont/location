@@ -5,8 +5,11 @@
  */
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Scanner;
 
 class BaseDeDonnees {
+    String s = "";
+    Scanner Scan = new Scanner(System.in);
 //    base locataires
 
     /**
@@ -129,7 +132,7 @@ class BaseDeDonnees {
     void ajouterBien(int type, String adresse, String etat){
         compteurBien[0] ++;
         compteurBien[1] ++;
-        int numCase = compteurBien[1];
+        int numCase = compteurBien[0];
 
         clesBien[numCase][0] = compteurBien[1];
         clesBien[numCase][1] = type;
@@ -164,6 +167,7 @@ class BaseDeDonnees {
         }
     }
 
+
 //    /**
 //     * Méthode permettant la supression d'un locataire désigné par son emplacement dans le tableau, par compactage de
 //     * la base de donnée, en décalant tout les locataires d'un cran vers la gauche du tableau.
@@ -196,6 +200,36 @@ class BaseDeDonnees {
 //        }
 //    }
 
+    void supprimerBien(int numCase){
+
+        int dernierBien = compteurBien[0];
+        compteurBien[0] --;
+
+        clesBien[numCase][0] = clesBien[dernierBien][0];
+        clesBien[numCase][1] = clesBien[dernierBien][1];
+        clesBien[numCase][2] = clesBien[dernierBien][2];
+        clesBien[dernierBien][0] = 0;
+        clesBien[dernierBien][1] = 0;
+        clesBien[dernierBien][2] = 0;
+
+        for (int i = 0; i < 2; i++) {
+            donneesBien[numCase][i] = donneesBien[dernierBien][i];
+            donneesBien[dernierBien][i] = null;
+        }
+        
+        loyerBien[numCase]=loyerBien[dernierBien];
+        loyerBien[dernierBien]=0;
+    }
+    void supprimerType(int numCase){
+
+        int dernierType = compteurType[0];
+        compteurType[0] --;
+        
+        idType[numCase]=idType[dernierType];
+        idType[dernierType]=0;
+        nomType[numCase]=nomType[dernierType];
+        nomType[dernierType]=null;
+    }
 
 //    Méthodes de requêtes
 
@@ -220,8 +254,8 @@ class BaseDeDonnees {
     
     /**
      * Affiche la liste des locataire ayant loué le type de bien passé en parametre
-     * @param indiceType
-     * Identifiant du type de bien
+     * @param indiceType du type de bien
+     * Affiche la liste directement sur le terminal
      */
     void afficherListeLocataireLoueType(int indiceType){
         for (int i=0 ; i<=clesBien[0].length ; i++){
@@ -235,13 +269,14 @@ class BaseDeDonnees {
      * Affiche la liste des locataire par ordre alphabetique, ainçi que le totalité de leurs icentifiants
      * Affiche la liste directement sur le terminal
      */
-    void afficherAlphaLoc(){
-        String data [][]=new String [(compteurLocataire[0])+1][4];
+     void afficherAlphaLoc(){
+        String data [][]=new String [(compteurLocataire[0])+1][5];
         for (int i=0 ; i<data.length ; i++){
             data[i][0]=donneesLocataire[i][0];
             data[i][1]=donneesLocataire[i][1];
             data[i][2]=donneesLocataire[i][2];
             data[i][3]=donneesLocataire[i][3];
+            data[i][4]=Integer.toString(idLocataire[i]);
         }
         Arrays.sort(data, new Comparator<String[]>() {
             @Override
@@ -251,57 +286,98 @@ class BaseDeDonnees {
                 return time1.compareTo(time2);
             }
         });
+        System.out.println("Id\tNom\tPrenom\tadresse\ttelephone");
         for (final String[] s : data) {
-            System.out.println(s[0] + "\t" + s[1] + "\t" + s[2] + "\t" + s[3]);
+            System.out.println(s[4] + "\t" + s[0] + "\t" + s[1] + "\t" + s[2] + "\t" + s[3]);
         }
     }
 
+    void afficherAlphaBien(){
+        String data [][]=new String [(compteurBien[0])+1][3];
+        for (int i=0 ; i<data.length ; i++){
+            data[i][0]=donneesBien[i][0];
+            data[i][1]=donneesBien[i][1];
+            data[i][2]=Integer.toString(clesBien[i][0]);
+        }
+        Arrays.sort(data, new Comparator<String[]>() {
+            @Override
+            public int compare(final String[] entry1, final String[] entry2) {
+                final String time1 = entry1[0];
+                final String time2 = entry2[0];
+                return time1.compareTo(time2);
+            }
+        });
+        System.out.println("Id\tadresse\tetat");
+        for (final String[] s : data) {
+            System.out.println(s[2] + "\t" + s[0] + "\t" + s[1]);
+        }
+    }
 
+    void afficherType(){
+        System.out.println("id\tdesignation");
+        for (int i=0 ; i<compteurType[0]+1 ; i++){
+            System.out.println(idType[i] + "\t" + nomType[i]);
+        }
+    }
 
-//    Main
+//    Méthodes de modification
 
-    /**
-     * Permet d'effectuer des tests sur la classe BaseDeDonnees afin de s'assurer de son bon fonctionnement
-     * @param args
-     */
-    public static void main(String[] args){
-        BaseDeDonnees base = new BaseDeDonnees();
+    void modifierLocataire(int id){
+        System.out.println(rechCaseIdLoc(id));
+        int numCase=rechCaseIdLoc(id);
+        System.out.print(afficherLocataire(numCase));
+        System.out.print("nouveau nom du locataire (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) donneesLocataire[numCase][0] = s;
+        System.out.print("nouveau prenom du locataire (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) donneesLocataire[numCase][1] = s;
+        System.out.print("nouvelle adresse du locataire (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) donneesLocataire[numCase][2] = s;
+        System.out.print("nouveau numero de telephone du locataire (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) donneesLocataire[numCase][3] = s;
+    }
 
-        System.out.println("Ajout de 3 locataires");
-        String nomLocataire = "Nolan";
-        String prenomLocataire = "Jhon";
-        String adresseLocataire = "13 Bvd Louis XIV";
-        String telephoneLocataire = "0658632459";
+    void modifierType(int id){
+        System.out.println(rechCaseIdType(id));
+        int numCase=rechCaseIdType(id);
+        System.out.print("nouveau nom du Type : ");
+        nomType[numCase] = Scan.nextLine();
+    }
 
-        base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
-
-        nomLocataire = "Smith";
-        prenomLocataire = "Victor";
-        adresseLocataire = "14 rue Charle V";
-        telephoneLocataire = "0656841236";
-
-        base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
-
-        nomLocataire = "Yaren";
-        prenomLocataire = "Victoria";
-        adresseLocataire = "14 rue du moulin";
-        telephoneLocataire = "0658632145";
-
-        base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
-
-        System.out.println(base.afficherLocataire(0));
-        System.out.println(base.afficherLocataire(1));
-        System.out.println(base.afficherLocataire(2));
-
-        System.out.println("Supression du locataire ID 2");
-
-        //base.supprimerLocataire(2);
-
-        System.out.println(base.afficherLocataire(0));
-        System.out.println(base.afficherLocataire(1));
-        System.out.println(base.afficherLocataire(2));
+    void modifierBien(int id){
+        System.out.println(rechCaseIdBien(id));
+        int numCase=rechCaseIdBien(id);
+        System.out.print("nouvel etat du bien (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) donneesBien[numCase][1] = s;
+        System.out.print("nouveau loyer du bien (saisir -1 pour ne pas modifier) : ");
+        s=Scan.nextLine();
+        if (!s.equals("-1")) loyerBien[numCase] = Double.parseDouble(s);
+    }
         
-        System.out.println(base.compteurLocataire[0]);
-        base.afficherAlphaLoc();
+//     Méthode de recherche
+    
+    int rechCaseIdBien(int id){
+            for (int i=0 ; i<clesBien.length ; i++){
+                if (id==clesBien[i][0]) return i;
+            }
+        return -9;//id non trouvé
+    }
+
+    int rechCaseIdType(int id){
+            for (int i=0 ; i<idType.length ; i++){
+                if (id==idType[i]) return i;
+            }
+        return -9;//id non trouvé
+    }
+
+    int rechCaseIdLoc(int id){
+         for (int i=0 ; i<idLocataire.length ; i++){
+             if (id==idLocataire[i]) return i;
+         }
+        return -9;//id non trouvé
     }
 }
