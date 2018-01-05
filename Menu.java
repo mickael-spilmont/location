@@ -72,6 +72,9 @@ class Menu{
                 menu2();
                 break;
             case 3://afficher la liste des biens d'un type particulier pariculier avec le nom du locataire s'il y a lieu
+                System.out.print("Id du type : ");
+                int idType=Scan.nextInt();
+                base.afficherListeTypeLoc(idType);
                 menu2();
                 break;
             case 4://retour
@@ -99,21 +102,26 @@ class Menu{
         System.out.println("\n---------------------\nGestion des locations\n---------------------\n1) Louer un bien (defaut)\n2) libérer un bien\n3) afficher la liste des biens loués\n4) afficher la liste des locataires de biens\n5) afficher la liste des locataires ayant au moin un bien en cours de location\n6) retour");  
         switch (Scan.nextInt()){
             case 2://libérer un bien
+                base.libBien();
                 menu4();
                 break;
             case 3://afficher la liste des biens loués
+                base.afficherBienLoue();
                 menu4();
                 break;
             case 4://afficher la liste des locataires de biens
+                base.afficherListeLocBien();
                 menu4();
                 break;
             case 5://afficher la liste des locataires ayant au moin un bien en cours de location
+                base.afficherListeLocBien();
                 menu4();
                 break;
             case 6://retour
                 menuPrincipal();
                 break;
             default://Louer un bien
+                base.loueBien();
                 menu4();
         }
     }

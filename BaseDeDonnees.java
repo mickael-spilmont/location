@@ -254,7 +254,8 @@ class BaseDeDonnees {
     
     /**
      * Affiche la liste des locataire ayant loué le type de bien passé en parametre
-     * @param indiceType du type de bien
+     * @param indiceType
+     *  indice du type de bien
      * Affiche la liste directement sur le terminal
      */
     void afficherListeLocataireLoueType(int indiceType){
@@ -264,9 +265,25 @@ class BaseDeDonnees {
             }
         }
     }
+    
+    void afficherListeLocBien(){
+        for (int i=0; i<idBienLocataire.length; i++){
+            if (idBienLocataire[i][0]!=0){
+                afficherLocataire(i);
+            }
+        }
+    }
+    
+    void afficherListeTypeLoc(int idType){
+        for (int i=0; i<clesBien.length; i++){
+            if (clesBien[i][1]==idType){
+                System.out.print(donneesBien[i][0]+"\t"+donneesLocataire[rechCaseIdLoc(clesBien[i][2])][0]);
+            }
+        }
+    }
 
      /**
-     * Affiche la liste des locataire par ordre alphabetique, ainçi que le totalité de leurs icentifiants
+     * Affiche la liste des locataire par ordre alphabetique, ainçi que le totalité de leurs identifiants
      * Affiche la liste directement sur le terminal
      */
      void afficherAlphaLoc(){
@@ -317,6 +334,15 @@ class BaseDeDonnees {
         System.out.println("id\tdesignation");
         for (int i=0 ; i<compteurType[0]+1 ; i++){
             System.out.println(idType[i] + "\t" + nomType[i]);
+        }
+    }
+    
+    void afficherBienLoue(){
+        System.out.println("Id\tadresse");                
+        for (int i=0; i<clesBien.length; i++){
+            if (clesBien[i][2]!=0){
+                System.out.println(clesBien[i][0] + "\t" + donneesBien[i][0]);                
+            }
         }
     }
 
@@ -379,5 +405,40 @@ class BaseDeDonnees {
              if (id==idLocataire[i]) return i;
          }
         return -9;//id non trouvé
+    }
+    
+//      methode de location
+    
+    void loueBien(){
+        System.out.print("Id du locataire : ");
+        int idLoc=Scan.nextInt();
+        int numCaseLoc=rechCaseIdLoc(idLoc);
+        if (idBienLocataire[numCaseLoc][4]==0){
+        System.out.print("Id du bien a louer : ");
+        int idBien=Scan.nextInt();
+        int numCaseBien=rechCaseIdBien(idBien);
+        clesBien[numCaseBien][2]=idLoc;
+            for (int i=0; i<5; i++){
+                if (idBienLocataire[numCaseLoc][i]==0){ 
+                    idBienLocataire[numCaseLoc][i]=idBien;
+                    i=5;
+                }
+            }
+        }
+        else System.out.print("ce locataire loue deja 5 biens");
+    }
+    
+    void libBien(){
+        System.out.print("Id du bien a liberer : ");
+        int idBien=Scan.nextInt();
+        int numCaseBien=rechCaseIdBien(idBien);
+        int numCaseLoc=rechCaseIdLoc(clesBien[numCaseBien][2]);
+        for (int i=0; i<5; i++){
+                if (idBienLocataire[numCaseLoc][i]==idBien){ 
+                    idBienLocataire[numCaseLoc][i]=0;
+                    i=5;
+                }
+            }
+        clesBien[numCaseBien][2]=0;
     }
 }
