@@ -64,7 +64,7 @@ class BaseDeDonnees {
     /**
      * Montant du loyer du bien
      */
-    double loyerBien[] = new double [100];
+    int loyerBien[] = new int [100];
 
 //    compteurID
 
@@ -131,7 +131,7 @@ class BaseDeDonnees {
      * @param etat
      * l'état du bien ex : neuf, a rafraichir...
      */
-    void ajouterBien(int type, String adresse, String etat, double loyer){
+    void ajouterBien(int type, String adresse, String etat, int loyer){
         compteurBien[0] ++;
         compteurBien[1] ++;
         int numCase = compteurBien[0];
@@ -384,7 +384,7 @@ class BaseDeDonnees {
         if (!s.equals("-1")) donneesBien[numCase][1] = s;
         System.out.print("nouveau loyer du bien (saisir -1 pour ne pas modifier) : ");
         s=Scan.nextLine();
-        if (!s.equals("-1")) loyerBien[numCase] = Double.parseDouble(s);
+        if (!s.equals("-1")) loyerBien[numCase] = Integer.parseInt(s);
     }
         
 //     Méthode de recherche

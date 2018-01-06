@@ -46,20 +46,22 @@ public class GenerateurDeBase {
             "Mauvais état"};
 
     /**
-     * Tableau contenant 12 nom de type de biens
+     * Tableau contenant 14 noms de type de biens
      */
-    String typesBien[] = {"Maison",
+    String typesBien[] = {"Garage",
+            "studio",
             "Appartement T1",
             "Appartement T2",
             "Appartement T3",
             "Appartement T4",
             "Appartement T5",
-            "Garage","Loft",
-            "Maison de maître",
-            "Hotel particulié",
+            "Maison",
+            "Loft",
             "Bureaux",
+            "Entrepôt",
+            "Maison de maître",
             "Commerce",
-            "Studio"};
+            "Hotel particulier"};
 
     /**
      * Constructeur de la classe.
@@ -190,13 +192,12 @@ public class GenerateurDeBase {
     }
 
     /**
-     * Méthode qui génére un type de bien à partir du tableau "typesBien"
+     * Méthode qui retourne un nombre aléatoire correspondant à une clé de type de bien
      * @return
-     *  un type de bien
+     *  un chiffre de 1 à 14
      */
-    String typeAleatoire(){
-        int i = generateurNombres(0, 11);
-        return typesBien[i];
+    int typeAleatoire(){
+        return generateurNombres(1, 14);
     }
 
     /**
@@ -209,7 +210,53 @@ public class GenerateurDeBase {
         return etatsBien[i];
     }
 
+    /**
+     * Méthode qui génère un loyer aléatoire au montant basé sur le type de bien
+     * @param type
+     *  la clé correspondant au type de bien
+     * @return
+     *  le montant du loyer
+     */
+    int loyerAleatoire(int type){
+        switch(type){
+            case 0: // garage
+                return generateurNombres(30, 80);
+            case 1: // studio
+                return generateurNombres(300, 550);
+            case 2: // T1
+                return generateurNombres(400, 650);
+            case 3: // T2
+                return generateurNombres(500, 750);
+            case 4: // T3
+                return generateurNombres(600, 850);
+            case 5: // T4
+                return generateurNombres(700, 950);
+            case 6: // T5
+                return generateurNombres(800, 1050);
+            case 7: // maison
+                return generateurNombres(600, 1050);
+            case 8: // loft
+                return generateurNombres(900, 1200);
+            case 9: // bureaux
+                return generateurNombres(800, 1800);
+            case 10: // entrepôt
+                return generateurNombres(1000, 2000);
+            case 11: // maison de maître
+                return generateurNombres(1200, 2000);
+            default: // hotel particulier
+                return generateurNombres(4000, 10000);
+        }
+    }
+
 //    Remplissage de la base
+
+    String types(BaseDeDonnees base){
+        for (int i = 0 ; i < typesBien.length ; i++){
+            String nom = typesBien[i];
+            base.ajouterTypeBien(nom);
+        }
+        return "La base types de biens est correctement remplie";
+    }
 
     String locataires(BaseDeDonnees base, int nbLocataires){
         for (int i = 0 ; i < nbLocataires ; i++) {
@@ -221,7 +268,19 @@ public class GenerateurDeBase {
             base.ajouterLocataire(nom, prenom, adresse, telephone);
         }
 
-        return "La base locataire est correctement remplie";
+        return "La base locataires est correctement remplie";
+    }
+
+    String biens(BaseDeDonnees base, int nbBiens){
+        for (int i = 0 ; i < nbBiens ; i++) {
+            int type = typeAleatoire();
+            String adresse = adresseAleatoire();
+            String etat = etatAleatoire();
+            int loyer = loyerAleatoire(type);
+
+            base.ajouterBien(type, adresse, etat, loyer);
+        }
+        return "La base biens est correctement remplie";
     }
 
 
@@ -231,5 +290,8 @@ public class GenerateurDeBase {
 
         System.out.println(generateur.locataires(base, 500));
         System.out.println(base.afficherLocataire(499));
+
+        System.out.println(generateur.biens(base, 100));
+        System.out.println(base.donneesBien[0]);
     }
 }

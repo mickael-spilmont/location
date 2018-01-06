@@ -89,7 +89,7 @@ class GestionFichier {
             }
             dos.writeUTF(chaineDonnees);
 
-            dos.writeDouble(base.loyerBien[i]);
+            dos.writeInt(base.loyerBien[i]);
         }
 
         dos.close();
@@ -166,7 +166,7 @@ class GestionFichier {
                 k ++;
             }
 
-            base.loyerBien[i] = dis.readDouble();
+            base.loyerBien[i] = dis.readInt();
         }
 
         dis.close();

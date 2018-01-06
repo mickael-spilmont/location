@@ -203,8 +203,10 @@ class Menu{
                 System.out.print("etat du bien : ");
                 String etatBien=Scan.nextLine();
                 System.out.print("id du type de bien correspondant : ");
-                int Type=Scan.nextInt();
-                base.ajouterBien(Type,adresseBien,etatBien);
+                int type=Scan.nextInt();
+                System.out.println("Montant du loyer : ");
+                int loyerBien = Scan.nextInt();
+                base.ajouterBien(type,adresseBien,etatBien,loyerBien);
                 menu21();
         }  
     }
