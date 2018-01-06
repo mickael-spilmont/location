@@ -57,7 +57,7 @@ class BaseDeDonnees {
     /**
      * Tableau contenant les données de type chaine de caractère du bien, dans cet ordre :
      *  0 - adresse du bien
-     *  1 -  etat du bien
+     *  1 - etat du bien
      */
     String donneesBien[][] = new String[100][2];
 
@@ -89,6 +89,8 @@ class BaseDeDonnees {
      * Métode permetant de créer un nouveau locataire
      * @param nom
      * Le nom du locataire
+     * @param prenom
+     * Le prenom du locataire
      * @param adresse
      * l'adresse du locataire
      * @param telephone
@@ -129,7 +131,7 @@ class BaseDeDonnees {
      * @param etat
      * l'état du bien ex : neuf, a rafraichir...
      */
-    void ajouterBien(int type, String adresse, String etat){
+    void ajouterBien(int type, String adresse, String etat, double loyer){
         compteurBien[0] ++;
         compteurBien[1] ++;
         int numCase = compteurBien[0];
@@ -138,6 +140,7 @@ class BaseDeDonnees {
         clesBien[numCase][1] = type;
         donneesBien[numCase][0] = adresse;
         donneesBien[numCase][1] = etat;
+        loyerBien[numCase] = loyer;
     }
 
 //    Méthodes de suppression
