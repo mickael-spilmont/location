@@ -453,15 +453,45 @@ class BaseDeDonnees {
         return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
     }
 
-//    int[] rechercheBienParVilleEtCP(int[] tableauEntree, String codePostal, String ville){
-//        for (int i = 0 ; i < tableauEntree.length ; i++){
-//            String[] adresse = donneesBien[i][0].split(" ");
-//            if (adresse[adresse.length - 2].equals(codePostal) || adresse[adresse.length - 1].equals(ville)){
-//                tableauEntree[i] = i;
-//
-//            }
-//        }
-//    }
+    int[] rechercheBien(String... args){
+        int bienTrouve[] = new int[compteurBien[0] + 1];
+        int compteurBienTrouve = 0;
+
+        for (int i = 0 ; i <= compteurBien[0] ; i++){
+            String donnees[] = extraireDonneesBien(i);
+            int nbMotCleTrouve = 0;
+
+            for (String motCle : args){
+                for (String donneeAComparer : donnees){
+                    if (motCle.equals(donneeAComparer)){
+                        nbMotCleTrouve ++;
+                    }
+                }
+            }
+
+            if (nbMotCleTrouve == args.length){
+                bienTrouve[compteurBienTrouve] = i;
+                compteurBienTrouve ++;
+            }
+        }
+
+        return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
+    }
+
+    String[] extraireDonneesBien(int numCaseBien){
+        String adresseBien[] = donneesBien[numCaseBien][0].split(" ");
+
+        String donnees[] = new String[adresseBien.length + 2];
+
+        for (int i = 0 ; i < adresseBien.length ; i++){
+            donnees[i] = adresseBien[i];
+        }
+
+        donnees[adresseBien.length] = nomType[clesBien[numCaseBien][1]];
+        donnees[adresseBien.length + 1] = donneesBien[numCaseBien][1];
+
+        return donnees;
+    }
 
     /**
      * Méthode qui permet de compacter les tableau créer par les méthodes de recherches, afin de les réduire uniquement
