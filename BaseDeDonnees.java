@@ -246,10 +246,10 @@ class BaseDeDonnees {
     String afficherLocataire(int numCase){
         String resultat = "";
 
-        resultat += "ID : " + idLocataire[numCase] + "\n";
-        resultat += "Nom : " + donneesLocataire[numCase][0] + "\n";
-        resultat += "Prenom : " + donneesLocataire[numCase][1] + "\n";
-        resultat += "Adresse : " + donneesLocataire[numCase][2] + "\n";
+        resultat += "ID : " + idLocataire[numCase] + "\t";
+        resultat += "Nom : " + donneesLocataire[numCase][0] + "\t";
+        resultat += "Prenom : " + donneesLocataire[numCase][1] + "\t";
+        resultat += "Adresse : " + donneesLocataire[numCase][2] + "\t";
         resultat += "Téléphone : " + donneesLocataire[numCase][3] + "\n";
 
         return resultat;
@@ -409,39 +409,185 @@ class BaseDeDonnees {
          }
         return -9;//id non trouvé
     }
+
+    /**
+     * Méthode permettant de trouver un locataire grace à son nom et prenom.
+     * Elle commence par créer un tableau de la taille du nombre d'utilisateur contenus dans la base, puis elle remplis
+     * ce tableau avec les indices d'emplacements des locataire trouvés.
+     * Elle appelle ensuite la méthode "compactageTableauRecherche" pour avoir un tableau qui fait uniquement la taille
+     * Si aucun locataire n'est trouvé le tableau retourné est de taille 0
+     * @param nom
+     *  Le nom du locataire
+     * @param prenom
+     *  Le prénom du locataire
+     * @return
+     *  La liste des emplacements des locataires trouvés
+     */
+    int[] rechercheLocataireParNom(String nom, String prenom){
+         int locataireTrouve[] = new int[compteurLocataire[0] + 1];
+         int compteurLocataireTrouve = 0;
+
+         // recherche dans la base et remplissage du tableau remporaire
+         for (int i = 0 ; i <= compteurLocataire[0] ; i++) {
+             if (donneesLocataire[i][0].equals(nom) || donneesLocataire[i][1].equals(prenom)) {
+                 locataireTrouve[compteurLocataireTrouve] = i;
+                 compteurLocataireTrouve ++;
+             }
+         }
+
+         // compactage du tableau de résultat et retour
+         return compactageTableauRecherche(locataireTrouve, compteurLocataireTrouve);
+    }
+
+
+    int[] rechercheBienParType(int type) {
+        int bienTrouve[] = new int[compteurBien[0] + 1];
+        int compteurBienTrouve = 0;
+
+        for (int i = 0; i <= compteurBien[0] ; i++) {
+            if (type == clesBien[i][1]) {
+                bienTrouve[compteurBienTrouve] = i;
+                compteurBienTrouve++;
+            }
+        }
+        return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
+    }
+
+//    int[] rechercheBienParVilleEtCP(int[] tableauEntree, String codePostal, String ville){
+//        for (int i = 0 ; i < tableauEntree.length ; i++){
+//            String[] adresse = donneesBien[i][0].split(" ");
+//            if (adresse[adresse.length - 2].equals(codePostal) || adresse[adresse.length - 1].equals(ville)){
+//                tableauEntree[i] = i;
+//
+//            }
+//        }
+//    }
+
+    /**
+     * Méthode qui permet de compacter les tableau créer par les méthodes de recherches, afin de les réduire uniquement
+     * au nombre de résultats contenu
+     * @param tableauEntree
+     *  Le tableau à compacter
+     * @param compteur
+     *  Le compteur qui indique le nombre de résultats trouvés
+     * @return
+     *  Le tableau compacté
+     */
+    int[] compactageTableauRecherche(int[] tableauEntree, int compteur){
+        int tableauSortie[] = new int[compteur];
+        for (int i = 0 ; i < tableauSortie.length ; i++){
+            tableauSortie[i] = tableauEntree[i];
+        }
+        return tableauSortie;
+    }
     
 //      methode de location
     
-    void loueBien(){
-        System.out.print("Id du locataire : ");
-        int idLoc=Scan.nextInt();
-        int numCaseLoc=rechCaseIdLoc(idLoc);
-        if (idBienLocataire[numCaseLoc][4]==0){
-        System.out.print("Id du bien a louer : ");
-        int idBien=Scan.nextInt();
-        int numCaseBien=rechCaseIdBien(idBien);
-        clesBien[numCaseBien][2]=idLoc;
-            for (int i=0; i<5; i++){
-                if (idBienLocataire[numCaseLoc][i]==0){ 
-                    idBienLocataire[numCaseLoc][i]=idBien;
-                    i=5;
-                }
-            }
-        }
-        else System.out.print("ce locataire loue deja 5 biens");
+//    void loueBien(){
+//        System.out.print("Id du locataire : ");
+//        int idLoc=Scan.nextInt();
+//        int numCaseLoc=rechCaseIdLoc(idLoc);
+//        if (idBienLocataire[numCaseLoc][4]==0){
+//        System.out.print("Id du bien a louer : ");
+//        int idBien=Scan.nextInt();
+//        int numCaseBien=rechCaseIdBien(idBien);
+//        clesBien[numCaseBien][2]=idLoc;
+//            for (int i=0; i<5; i++){
+//                if (idBienLocataire[numCaseLoc][i]==0){
+//                    idBienLocataire[numCaseLoc][i]=idBien;
+//                    i=5;
+//                }
+//            }
+//        }
+//        else System.out.print("ce locataire loue deja 5 biens");
+//    }
+//
+//    void libBien(){
+//        System.out.print("Id du bien a liberer : ");
+//        int idBien=Scan.nextInt();
+//        int numCaseBien=rechCaseIdBien(idBien);
+//        int numCaseLoc=rechCaseIdLoc(clesBien[numCaseBien][2]);
+//        for (int i=0; i<5; i++){
+//                if (idBienLocataire[numCaseLoc][i]==idBien){
+//                    idBienLocataire[numCaseLoc][i]=0;
+//                    i=5;
+//                }
+//            }
+//        clesBien[numCaseBien][2]=0;
+//    }
+
+//    String louerBien(int idBien, int idLocataire){
+//         int numCaseBien = rechCaseIdBien(idBien);
+//         int numCaseLocataire = rechCaseIdLoc(idLocataire);
+//
+//         if (numCaseBien == -9){
+//             return "Identifiant du bien incorrecte";
+//         }
+//         else if (numCaseLocataire == -9){
+//             return "Identifiant  du locataire incorrecte";
+//         }
+//         else if (loue(numCaseBien)){
+//             return "Le bien est déja loué";
+//         }
+//         else if (emplacementVideBienLocataire(numCaseLocataire) == -1){
+//             return "Le locataire loue déjà 5 biens";
+//         }
+//         else{
+//             clesBien[numCaseBien][2] = idBien;
+//
+//             for
+//         }
+//
+//    }
+
+    /**
+     * Méthode qui permet la mise en location d'un bien en ajoutant les clé necessaire du coté bien et loataires
+     * @param numCaseBien
+     *  Emplacement du bien dans la base
+     * @param numCaseLocataire
+     *  Emplacement du locataire dans la base
+     * @param emplacmentLibreLocataire
+     *  Emplacement libre du tableau "idBienLocataire"
+     * @return
+     */
+    String louerBien(int numCaseBien, int numCaseLocataire, int emplacmentLibreLocataire){
+        clesBien[numCaseBien][2] = idLocataire[numCaseLocataire];
+        idBienLocataire[numCaseLocataire][emplacmentLibreLocataire] = clesBien[numCaseBien][0];
+        return "Le bien à correctement été mis en location";
     }
-    
-    void libBien(){
-        System.out.print("Id du bien a liberer : ");
-        int idBien=Scan.nextInt();
-        int numCaseBien=rechCaseIdBien(idBien);
-        int numCaseLoc=rechCaseIdLoc(clesBien[numCaseBien][2]);
-        for (int i=0; i<5; i++){
-                if (idBienLocataire[numCaseLoc][i]==idBien){ 
-                    idBienLocataire[numCaseLoc][i]=0;
-                    i=5;
-                }
-            }
-        clesBien[numCaseBien][2]=0;
+
+    /**
+     * Méthode permettant de vérifier si un bien est en location
+     * @param numCaseBien
+     *  L'emplacement du bien dans la base
+     * @return
+     *  Un boolean de valeur true si le bien est loué et false dans le cas contraire
+     */
+    boolean loue(int numCaseBien){
+         return (clesBien[numCaseBien][2] != 0);
+    }
+
+    /**
+     * Une méthode qui retourne le numéro d'un emplacement de location vide, et -1 dans le cas où le locataire a déja
+     * 5 biens en location
+     * @param numCaseLocataire
+     *  L'emplacement du locataire dans la base
+     * @return
+     *  L'indice d'un emplacement vide ou -1 dans le cas contraire
+     */
+    int emplacementVideBienLocataire(int numCaseLocataire){
+         int emplacementVide = -1;
+         int idBien = 0;
+
+         for (int i = 0 ; i < 5 ; i++){
+             idBien = idBienLocataire[numCaseLocataire][i];
+                 if (idBien == 0){
+                     emplacementVide = i;
+             }
+         }
+         return emplacementVide;
+    }
+
+    public static void main(String[] args){
     }
 }

@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GenerateurDeBase {
 
@@ -255,7 +256,7 @@ public class GenerateurDeBase {
             String nom = typesBien[i];
             base.ajouterTypeBien(nom);
         }
-        return "La base types de biens est correctement remplie";
+        return "Les types de biens ont été générés correctement\n";
     }
 
     String locataires(BaseDeDonnees base, int nbLocataires){
@@ -268,7 +269,7 @@ public class GenerateurDeBase {
             base.ajouterLocataire(nom, prenom, adresse, telephone);
         }
 
-        return "La base locataires est correctement remplie";
+        return "Les locataires ont été générés correctement\n";
     }
 
     String biens(BaseDeDonnees base, int nbBiens){
@@ -280,18 +281,29 @@ public class GenerateurDeBase {
 
             base.ajouterBien(type, adresse, etat, loyer);
         }
-        return "La base biens est correctement remplie";
+        return "Les biens ont été générés correctement\n";
     }
 
 
     public static void main(String[] args) throws IOException{
         GenerateurDeBase generateur = new GenerateurDeBase();
         BaseDeDonnees base = new BaseDeDonnees();
+        Scanner sc = new Scanner(System.in);
+        int nombre;
 
-        System.out.println(generateur.locataires(base, 500));
-        System.out.println(base.afficherLocataire(499));
+        System.out.println("Bienvenue dans le générateur de base de données.\n" +
+                "Tout d'abbord nous allons générer 14 types de biens\n");
+        System.out.println(generateur.types(base));
 
-        System.out.println(generateur.biens(base, 100));
-        System.out.println(base.donneesBien[0]);
+//        Génération
+        nombre = sc.nextInt();
+        System.out.println("Générons maintenant les loctaires.\n" +
+                "Indiquez le nombre de locataires que vous désirez générer (de 1 à 500) : ");
+        while (nombre < 1 || nombre > 500){
+            System.out.println("Valeur incorrecte, veuillez entrer un nombre de 1 à 500");
+            nombre = sc.nextInt();
+        }
+        System.out.println(generateur.locataires(base, nombre));
+
     }
 }

@@ -14,7 +14,16 @@ class Menu{
     String prenomLocataire = "";
     String adresseLocataire = "";
     String telephoneLocataire = "";
+
+//    Opérations sur la base
+
+//    String louerBien(){
+//
+//    }
+
+
     
+//    Menu
 
     void menuPrincipal(){
         System.out.println("\n----------------------------------\nLoSC (Locataires Sympas et Calmes)\n----------------------------------");
@@ -102,7 +111,7 @@ class Menu{
         System.out.println("\n---------------------\nGestion des locations\n---------------------\n1) Louer un bien (defaut)\n2) libérer un bien\n3) afficher la liste des biens loués\n4) afficher la liste des locataires de biens\n5) afficher la liste des locataires ayant au moin un bien en cours de location\n6) retour");  
         switch (Scan.nextInt()){
             case 2://libérer un bien
-                base.libBien();
+//                base.libBien();
                 menu4();
                 break;
             case 3://afficher la liste des biens loués
@@ -121,7 +130,7 @@ class Menu{
                 menuPrincipal();
                 break;
             default://Louer un bien
-                base.loueBien();
+//                base.loueBien();
                 menu4();
         }
     }
