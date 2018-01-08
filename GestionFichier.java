@@ -211,23 +211,14 @@ class GestionFichier {
      */
     public static void main(String[] args) throws IOException{
         GestionFichier objetFichier = new GestionFichier("test");
-        BaseDeDonnees baseA = new BaseDeDonnees();
-        BaseDeDonnees baseB = new BaseDeDonnees();
-
-//        Ajout de deux locataires dans la base
-        baseA.ajouterLocataire("Nollan", "Victor", "11 rue de la monaie 59000 Lille", "0325684475");
-        baseA.ajouterLocataire("Smith", "Jhon", "13 rue du moulin 59000 Lille", "0325889415");
-        baseA.ajouterLocataire("Norris", "Chuck", "53 Bvd Louis XIV 59000 Lille", "0395787615");
-
-//        Sauvegarde de la base
-        objetFichier.ecrire(baseA);
+        BaseDeDonnees base = new BaseDeDonnees();
 
 //        Chargement dan sune nouvelle base
-        objetFichier.lire(baseB);
+        objetFichier.lire(base);
 
 //        Lire baseB
-        for (int i = 0 ; i < 3 ; i++){
-            System.out.println(baseB.afficherLocataire(i));
+        for (int i = 0 ; i < 99 ; i++){
+            System.out.println(base.afficherLocataire(i));
         }
     }
 }

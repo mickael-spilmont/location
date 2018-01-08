@@ -77,7 +77,7 @@ public class GenerateurDeBase {
         String tabLigne[];
         BufferedReader br;
 
-        br = new BufferedReader(new FileReader("donees/donees.bin"));
+        br = new BufferedReader(new FileReader("donnees/donnees.bin"));
 
 //        lescture des noms et prénoms
         for (int i = 0 ; i < 500 ; i++){
@@ -288,6 +288,7 @@ public class GenerateurDeBase {
     public static void main(String[] args) throws IOException{
         GenerateurDeBase generateur = new GenerateurDeBase();
         BaseDeDonnees base = new BaseDeDonnees();
+        GestionFichier objetFichier;
         Scanner sc = new Scanner(System.in);
         int nombre;
 
@@ -296,14 +297,30 @@ public class GenerateurDeBase {
         System.out.println(generateur.types(base));
 
 //        Génération
-        nombre = sc.nextInt();
-        System.out.println("Générons maintenant les loctaires.\n" +
+        System.out.println("Générons les loctaires.\n" +
                 "Indiquez le nombre de locataires que vous désirez générer (de 1 à 500) : ");
+        nombre = sc.nextInt();
         while (nombre < 1 || nombre > 500){
             System.out.println("Valeur incorrecte, veuillez entrer un nombre de 1 à 500");
             nombre = sc.nextInt();
         }
         System.out.println(generateur.locataires(base, nombre));
 
+        System.out.println("Générons les biens.\n" +
+                "Indiquer le nombre de biens à générer (de 1 à 100) : ");
+        nombre = sc.nextInt();
+        while (nombre < 1 || nombre > 100){
+            System.out.println("Valeur incorrecte, veuillez entrer un nombre de 1 à 100");
+            nombre = sc.nextInt();
+        }
+        System.out.println(generateur.biens(base, nombre));
+
+//        Sauvegarde de la base
+        System.out.println("Enfin entrez le nom du fichier dans lequel serras sauvegardé la base : ");
+        sc.nextLine();
+        String nomFichier = sc.nextLine();
+
+        objetFichier = new GestionFichier(nomFichier);
+        objetFichier.ecrire(base);
     }
 }

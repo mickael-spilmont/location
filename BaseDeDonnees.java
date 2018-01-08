@@ -246,10 +246,10 @@ class BaseDeDonnees {
     String afficherLocataire(int numCase){
         String resultat = "";
 
-        resultat += "ID : " + idLocataire[numCase] + "\t";
-        resultat += "Nom : " + donneesLocataire[numCase][0] + "\t";
-        resultat += "Prenom : " + donneesLocataire[numCase][1] + "\t";
-        resultat += "Adresse : " + donneesLocataire[numCase][2] + "\t";
+        resultat += "ID : " + idLocataire[numCase] + "\n";
+        resultat += "Nom : " + donneesLocataire[numCase][0] + "\n";
+        resultat += "Prenom : " + donneesLocataire[numCase][1] + "\n";
+        resultat += "Adresse : " + donneesLocataire[numCase][2] + "\n";
         resultat += "Téléphone : " + donneesLocataire[numCase][3] + "\n";
 
         return resultat;
