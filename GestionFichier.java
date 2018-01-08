@@ -218,7 +218,7 @@ class GestionFichier {
 
 //        Lire baseB
         for (int i = 0 ; i < 99 ; i++){
-            System.out.println(base.afficherLocataire(i));
+            System.out.println(base.afficherInfosLocataire(i));
         }
     }
 }

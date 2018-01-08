@@ -33,17 +33,17 @@ class LoSC{
 
         base.ajouterLocataire(nomLocataire, prenomLocataire, adresseLocataire, telephoneLocataire);
 
-        System.out.println(base.afficherLocataire(0));
-        System.out.println(base.afficherLocataire(1));
-        System.out.println(base.afficherLocataire(2));
+        System.out.println(base.afficherInfosLocataire(0));
+        System.out.println(base.afficherInfosLocataire(1));
+        System.out.println(base.afficherInfosLocataire(2));
 
         //System.out.println("Supression du locataire ID 2");
 
         //base.supprimerLocataire(2);
 
-        System.out.println(base.afficherLocataire(0));
-        System.out.println(base.afficherLocataire(1));
-        System.out.println(base.afficherLocataire(2));
+        System.out.println(base.afficherInfosLocataire(0));
+        System.out.println(base.afficherInfosLocataire(1));
+        System.out.println(base.afficherInfosLocataire(2));
         
         //System.out.println(base.compteurLocataire[0]);
         base.afficherAlphaLoc();

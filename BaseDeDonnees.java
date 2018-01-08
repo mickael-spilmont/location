@@ -243,17 +243,29 @@ class BaseDeDonnees {
      * @return
      * retourne la fiche du locataire sous forme de chaine de caractères
      */
-    String afficherLocataire(int numCase){
-        String resultat = "";
+    String afficherInfosLocataire(int numCase){
+        String infos = "";
 
-        resultat += "ID : " + idLocataire[numCase] + "\n";
-        resultat += "Nom : " + donneesLocataire[numCase][0] + "\n";
-        resultat += "Prenom : " + donneesLocataire[numCase][1] + "\n";
-        resultat += "Adresse : " + donneesLocataire[numCase][2] + "\n";
-        resultat += "Téléphone : " + donneesLocataire[numCase][3] + "\n";
+        infos += "ID : " + idLocataire[numCase] + "\n";
+        infos += "Nom : " + donneesLocataire[numCase][0] + "\n";
+        infos += "Prenom : " + donneesLocataire[numCase][1] + "\n";
+        infos += "Adresse : " + donneesLocataire[numCase][2] + "\n";
+        infos += "Téléphone : " + donneesLocataire[numCase][3] + "\n\n";
 
-        return resultat;
+        return infos;
     }
+
+    String afficherInfosBien(int numCase){
+        String infos = "";
+
+        infos += "ID : " + clesBien[numCase][0] + "\n";
+        infos += "Description : " + donneesBien[numCase][0] + "\n";
+        infos += "Loyer : " + loyerBien[numCase] + "\n";
+        infos += "Etat : " + donneesBien[numCase][1] + "\n\n";
+
+        return infos;
+    }
+
     
     /**
      * Affiche la liste des locataire ayant loué le type de bien passé en parametre
@@ -264,7 +276,7 @@ class BaseDeDonnees {
     void afficherListeLocataireLoueType(int indiceType){
         for (int i=0 ; i<=clesBien[0].length ; i++){
             if (clesBien[i][1]==indiceType){
-                afficherLocataire(clesBien[i][2]);
+                afficherInfosLocataire(clesBien[i][2]);
             }
         }
     }
@@ -272,7 +284,7 @@ class BaseDeDonnees {
     void afficherListeLocBien(){
         for (int i=0; i<idBienLocataire.length; i++){
             if (idBienLocataire[i][0]!=0){
-                afficherLocataire(i);
+                afficherInfosLocataire(i);
             }
         }
     }
@@ -354,7 +366,7 @@ class BaseDeDonnees {
     void modifierLocataire(int id){
         System.out.println(rechCaseIdLoc(id));
         int numCase=rechCaseIdLoc(id);
-        System.out.print(afficherLocataire(numCase));
+        System.out.print(afficherInfosLocataire(numCase));
         System.out.print("nouveau nom du locataire (saisir -1 pour ne pas modifier) : ");
         s=Scan.nextLine();
         if (!s.equals("-1")) donneesLocataire[numCase][0] = s;
@@ -423,59 +435,66 @@ class BaseDeDonnees {
      * @return
      *  La liste des emplacements des locataires trouvés
      */
-    int[] rechercheLocataireParNom(String nom, String prenom){
-         int locataireTrouve[] = new int[compteurLocataire[0] + 1];
-         int compteurLocataireTrouve = 0;
+    String rechercheLocataireParNom(String nom, String prenom){
+        String locatairesTrouves = "";
 
-         // recherche dans la base et remplissage du tableau remporaire
          for (int i = 0 ; i <= compteurLocataire[0] ; i++) {
              if (donneesLocataire[i][0].equals(nom) || donneesLocataire[i][1].equals(prenom)) {
-                 locataireTrouve[compteurLocataireTrouve] = i;
-                 compteurLocataireTrouve ++;
+                 locatairesTrouves += afficherInfosLocataire(i);
              }
          }
 
-         // compactage du tableau de résultat et retour
-         return compactageTableauRecherche(locataireTrouve, compteurLocataireTrouve);
+         if (locatairesTrouves.equals("")){
+             return "Aucun locataires trouvés";
+         }
+         else{
+             return locatairesTrouves;
+         }
     }
 
 
-    int[] rechercheBienParType(int type) {
-        int bienTrouve[] = new int[compteurBien[0] + 1];
-        int compteurBienTrouve = 0;
+//    int[] rechercheBienParType(int type) {
+//        int bienTrouve[] = new int[compteurBien[0] + 1];
+//        int compteurBienTrouve = 0;
+//
+//        for (int i = 0; i <= compteurBien[0] ; i++) {
+//            if (type == clesBien[i][1]) {
+//                bienTrouve[compteurBienTrouve] = i;
+//                compteurBienTrouve++;
+//            }
+//        }
+//        return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
+//    }
 
-        for (int i = 0; i <= compteurBien[0] ; i++) {
-            if (type == clesBien[i][1]) {
-                bienTrouve[compteurBienTrouve] = i;
-                compteurBienTrouve++;
-            }
-        }
-        return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
-    }
+    String rechercheBien(String... args) {
+        String bienTrouve = "";
 
-    int[] rechercheBien(String... args){
-        int bienTrouve[] = new int[compteurBien[0] + 1];
-        int compteurBienTrouve = 0;
+        for (String mot : args) {
 
-        for (int i = 0 ; i <= compteurBien[0] ; i++){
-            String donnees[] = extraireDonneesBien(i);
-            int nbMotCleTrouve = 0;
+            for (int i = 0; i <= compteurBien[0]; i++) {
+                String donnees[] = extraireDonneesBien(i);
+                int nbMotCleTrouve = 0;
 
-            for (String motCle : args){
-                for (String donneeAComparer : donnees){
-                    if (motCle.equals(donneeAComparer)){
-                        nbMotCleTrouve ++;
+                for (String motCle : args) {
+                    for (String donneeAComparer : donnees) {
+                        if (mot.equals(donneeAComparer)) {
+                            nbMotCleTrouve++;
+                        }
                     }
                 }
-            }
 
-            if (nbMotCleTrouve == args.length){
-                bienTrouve[compteurBienTrouve] = i;
-                compteurBienTrouve ++;
+                if (nbMotCleTrouve == args.length) {
+                    bienTrouve += afficherInfosBien(i);
+                }
             }
         }
 
-        return compactageTableauRecherche(bienTrouve, compteurBienTrouve);
+        if (bienTrouve.equals("")){
+            return "Aucun bien trouvé";
+        }
+        else {
+            return bienTrouve;
+        }
     }
 
     String[] extraireDonneesBien(int numCaseBien){
@@ -493,33 +512,15 @@ class BaseDeDonnees {
         return donnees;
     }
 
-    /**
-     * Méthode qui permet de compacter les tableau créer par les méthodes de recherches, afin de les réduire uniquement
-     * au nombre de résultats contenu
-     * @param tableauEntree
-     *  Le tableau à compacter
-     * @param compteur
-     *  Le compteur qui indique le nombre de résultats trouvés
-     * @return
-     *  Le tableau compacté
-     */
-    int[] compactageTableauRecherche(int[] tableauEntree, int compteur){
-        int tableauSortie[] = new int[compteur];
-        for (int i = 0 ; i < tableauSortie.length ; i++){
-            tableauSortie[i] = tableauEntree[i];
-        }
-        return tableauSortie;
-    }
-    
 //      methode de location
     
 //    void loueBien(){
 //        System.out.print("Id du locataire : ");
-//        int idLoc=Scan.nextInt();
+//        int idLoc=scan.nextInt();
 //        int numCaseLoc=rechCaseIdLoc(idLoc);
 //        if (idBienLocataire[numCaseLoc][4]==0){
 //        System.out.print("Id du bien a louer : ");
-//        int idBien=Scan.nextInt();
+//        int idBien=scan.nextInt();
 //        int numCaseBien=rechCaseIdBien(idBien);
 //        clesBien[numCaseBien][2]=idLoc;
 //            for (int i=0; i<5; i++){
@@ -534,7 +535,7 @@ class BaseDeDonnees {
 //
 //    void libBien(){
 //        System.out.print("Id du bien a liberer : ");
-//        int idBien=Scan.nextInt();
+//        int idBien=scan.nextInt();
 //        int numCaseBien=rechCaseIdBien(idBien);
 //        int numCaseLoc=rechCaseIdLoc(clesBien[numCaseBien][2]);
 //        for (int i=0; i<5; i++){
