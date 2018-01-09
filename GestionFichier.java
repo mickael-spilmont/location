@@ -14,10 +14,10 @@ class GestionFichier {
 
     /**
      * Constructeur de GestionFichier
-     * @param nomFichier
-     * Le nom du fichier indiqué par l'utilisateur
+     *
+     * @param nomFichier Le nom du fichier indiqué par l'utilisateur
      */
-    GestionFichier(String nomFichier){
+    void getCheminFichier(String nomFichier) {
         cheminFichier = "sauvegardes/" + nomFichier + ".bin";
     }
 
@@ -28,13 +28,12 @@ class GestionFichier {
      * toutes les données relatif au premier locataire puis on passe au second.
      * Les données sous forme de String sont sauvegardées sur une seule ligne par base, chaque données étant séparée
      * par un ";".
-     * @param base
-     *  La base de données à enregistrer
-     * @return
-     *  Une phrase qui indique si la sauvegarde à réussie
+     *
+     * @param base La base de données à enregistrer
+     * @return Une phrase qui indique si la sauvegarde à réussie
      * @throws IOException
      */
-    String ecrire(BaseDeDonnees base) throws IOException{
+    String ecrire(BaseDeDonnees base) throws IOException {
         String chaineDonnees = null;
         DataOutputStream dos;
 
@@ -46,16 +45,16 @@ class GestionFichier {
         dos.writeInt(base.compteurLocataire[0]);
         dos.writeInt(base.compteurLocataire[1]);
 
-        for (int i = 0 ; i <= nbLocataires ; i++){
+        for (int i = 0; i <= nbLocataires; i++) {
             dos.writeInt(base.idLocataire[i]);
 
             chaineDonnees = "";
-            for (int j = 0 ; j < 4 ; j++){
+            for (int j = 0; j < 4; j++) {
                 chaineDonnees += base.donneesLocataire[i][j] + ";";
             }
             dos.writeUTF(chaineDonnees);
 
-            for (int k = 0 ; k < 5 ; k++){
+            for (int k = 0; k < 5; k++) {
                 dos.writeInt(base.idBienLocataire[i][k]);
             }
         }
@@ -66,7 +65,7 @@ class GestionFichier {
         dos.writeInt(base.compteurType[0]);
         dos.writeInt(base.compteurType[1]);
 
-        for (int i = 0 ; i <= nbTypes ; i++){
+        for (int i = 0; i <= nbTypes; i++) {
             dos.writeInt(base.idType[i]);
             dos.writeUTF(base.nomType[i]);
         }
@@ -77,14 +76,14 @@ class GestionFichier {
         dos.writeInt(base.compteurBien[0]);
         dos.writeInt(base.compteurBien[1]);
 
-        for (int i = 0 ; i <= nbBiens ; i++){
+        for (int i = 0; i <= nbBiens; i++) {
 
-            for (int j = 0 ; j < 3 ; j ++){
+            for (int j = 0; j < 3; j++) {
                 dos.writeInt(base.clesBien[i][j]);
             }
 
             chaineDonnees = "";
-            for (int k = 0 ; k < 2 ; k++){
+            for (int k = 0; k < 2; k++) {
                 chaineDonnees += base.donneesBien[i][k] + ";";
             }
             dos.writeUTF(chaineDonnees);
@@ -100,13 +99,12 @@ class GestionFichier {
     /**
      * Méthode qui permet de charger les info contenues dans le fichier de sauvegarde vers la base de données.
      * Les info sont chargées dans le même ordre que celui d'écriture dans le fichier (voir ligne 25)
-     * @param base
-     *  La base de données qui vas recevoir le contenu du fichier
-     * @return
-     *  Une phrase qui indique si le chargement à réussi
+     *
+     * @param base La base de données qui vas recevoir le contenu du fichier
+     * @return Une phrase qui indique si le chargement à réussi
      * @throws IOException
      */
-    String lire(BaseDeDonnees base) throws IOException{
+    String lire(BaseDeDonnees base) throws IOException {
         String chaineDonnees = null;
         DataInputStream dis;
 
@@ -118,19 +116,19 @@ class GestionFichier {
 
         int nbLocataires = base.compteurLocataire[0];
 
-        for (int i = 0 ; i <= nbLocataires ; i++){
+        for (int i = 0; i <= nbLocataires; i++) {
             base.idLocataire[i] = dis.readInt();
 
 //            Lis la chaine de doneesLocataire et la découpe à chaque ";" avec la méthode de classe split qui retourne
 //            un tableau contenant chaque parties
             chaineDonnees = dis.readUTF();
             int j = 0;
-            for (String donnee : chaineDonnees.split(";")){
+            for (String donnee : chaineDonnees.split(";")) {
                 base.donneesLocataire[i][j] = donnee;
-                j ++;
+                j++;
             }
 
-            for (int k = 0 ; k < 5 ; k++){
+            for (int k = 0; k < 5; k++) {
                 base.idBienLocataire[i][j] = dis.readInt();
             }
         }
@@ -141,7 +139,7 @@ class GestionFichier {
 
         int nbTypes = base.compteurType[0];
 
-        for (int i = 0 ; i <= nbTypes ; i++){
+        for (int i = 0; i <= nbTypes; i++) {
             base.idType[i] = dis.readInt();
             base.nomType[i] = dis.readUTF();
         }
@@ -152,18 +150,18 @@ class GestionFichier {
 
         int nbBiens = base.compteurBien[0];
 
-        for (int i = 0 ; i <= nbBiens ; i++){
+        for (int i = 0; i <= nbBiens; i++) {
 
-            for (int j = 0 ; j < 3 ; j++){
+            for (int j = 0; j < 3; j++) {
                 base.clesBien[i][j] = dis.readInt();
             }
 
 //            Même procédure que pour donneesLocataire, voir ligne 118
             chaineDonnees = dis.readUTF();
             int k = 0;
-            for (String donnee : chaineDonnees.split(";")){
+            for (String donnee : chaineDonnees.split(";")) {
                 base.donneesBien[i][k] = donnee;
-                k ++;
+                k++;
             }
 
             base.loyerBien[i] = dis.readInt();
@@ -175,10 +173,10 @@ class GestionFichier {
 
     /**
      * Vérifie l'existance du fichier de sauvegarde donné par l'utilisateur
-     * @return
-     * retourne vrai si le fichier est trouvé et faux dans le cas contraire
+     *
+     * @return retourne vrai si le fichier est trouvé et faux dans le cas contraire
      */
-    boolean existe(){
+    boolean existe() {
         File fichier = new File(cheminFichier);
 
         return (fichier.exists());
@@ -187,7 +185,7 @@ class GestionFichier {
     /**
      * Créer le repertoire "sauvegardes" si ce dernier n'est pas présent
      */
-    void creerRepertoireSauvegardes(){
+    void creerRepertoireSauvegardes() {
         File repertoire = new File("sauvegardes");
 //        peut renvoyer un booleen
         repertoire.mkdir();
@@ -196,31 +194,26 @@ class GestionFichier {
     /**
      * Liste les fichiers présente dans le répertoire "sauvegardes" et les affiches
      */
-    void listerFichier(){
+    void listerFichier() {
         File repertoire = new File("sauvegardes");
         String[] liste = repertoire.list();
 
-        for (String nomFichier : liste) {
-            System.out.println(nomFichier);
+        if (liste.length == 0){
+            System.out.println("Aucun fichiers disponibles");
+        }
+        else{
+            for (String nomFichier : liste) {
+                System.out.println(nomFichier.split(".")[0]);
+            }
         }
     }
 
     /**
      * Permet d'effectuer des tests sur la classe GestionFichier afin de s'assurer de son bon fonctionnement
+     *
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException{
-        GestionFichier objetFichier = new GestionFichier("test");
-        BaseDeDonnees base = new BaseDeDonnees();
-
-//        Chargement dan sune nouvelle base
-        objetFichier.lire(base);
-
-//        Lire baseB
-        for (int i = 0 ; i < 99 ; i++){
-            System.out.println(base.afficherInfosLocataire(i));
-        }
+    public static void main(String[] args) throws IOException {
     }
 }
-
 // vLocId
