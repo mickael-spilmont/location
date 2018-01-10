@@ -14,11 +14,18 @@ class GestionFichier {
 
     /**
      * Constructeur de GestionFichier
-     *
-     * @param nomFichier Le nom du fichier indiqué par l'utilisateur
+     * Appel la méthode "creerRepertoireSauvegardes" afin de créer le dossier sauvegarde si il n'est pas présent
      */
-    void getCheminFichier(String nomFichier) {
-        cheminFichier = "sauvegardes/" + nomFichier + ".bin";
+    GestionFichier(){
+        creerRepertoireSauvegardes();
+    }
+
+    /**
+     * Méthode permettant la mofification du nom de fichier
+     * @param nomFichier
+     */
+    void setCheminFichier(String nomFichier) {
+        cheminFichier = "sauvegardes/" + nomFichier;
     }
 
     /**
@@ -203,7 +210,7 @@ class GestionFichier {
         }
         else{
             for (String nomFichier : liste) {
-                System.out.println(nomFichier.split(".")[0]);
+                System.out.println(nomFichier);
             }
         }
     }

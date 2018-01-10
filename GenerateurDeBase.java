@@ -320,7 +320,7 @@ public class GenerateurDeBase {
         sc.nextLine();
         String nomFichier = sc.nextLine();
 
-        objetFichier = new GestionFichier(nomFichier);
-        objetFichier.ecrire(base);
+        //objetFichier = new GestionFichier(nomFichier);
+        //objetFichier.ecrire(base);
     }
 }
