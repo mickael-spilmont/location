@@ -236,10 +236,10 @@ class BaseDeDonnees {
      *  Le même Id formaté
      */
     String formatageId(String id){
-        if (id.length() < 10){
+        if (id.length() < 2){
             id = "  " + id;
         }
-        else if (id.length() < 100){
+        else if (id.length() < 3){
             id = " " + id;
         }
         return id;
@@ -289,6 +289,16 @@ class BaseDeDonnees {
             }
         }
         return chaine;
+    }
+
+    String formatageLoyer(String loyer){
+        if (loyer.length() < 4){
+            loyer = " " + loyer + "€";
+        }
+        else{
+            loyer += "€";
+        }
+        return loyer;
     }
 
     /**
@@ -365,15 +375,6 @@ class BaseDeDonnees {
             System.out.print(idBienLocataire[numCaseLoc][i]);
             numCaseBien = rechCaseIdBien(idBienLocataire[numCaseLoc][i]);
             System.out.print("\t" + donneesBien[numCaseBien][0]);
-        }
-    }
-
-    void afficherListeTypeLoc(int idType) {
-        System.out.println("Adresse\tlocataire");
-        for (int i = 0; i < clesBien.length; i++) {
-            if (clesBien[i][1] == idType) {
-                System.out.println(donneesBien[i][0]); //"\t" + donneesLocataire[rechCaseIdLoc(clesBien[i][2])][0]);
-            }
         }
     }
 
@@ -465,15 +466,44 @@ class BaseDeDonnees {
         }
     }
 
-//    String afficherBienParType(int id){
-//        String bienTrouve = "";
-//
-//        for (int i = 0 ;  i <= compteurBien[0] ; i++){
-//            if (clesBien[i][1] == id){
-//
-//            }
-//        }
-//    }
+    String afficherBienParType(int idType, boolean afficherLocataire){
+        String bienTrouve = "";
+        String donnees = "";
+
+        for (int i = 0 ;  i <= compteurBien[0] ; i++){
+            if (clesBien[i][1] == idType) {
+                String id = Integer.toString(clesBien[i][0]);
+                id = formatageId(id);
+                String adresse = formatageLong(donneesBien[i][0]);
+                String etat = formatageCourt(donneesBien[i][1]);
+                String loyer = Integer.toString(loyerBien[i]);
+                loyer = formatageLoyer(loyer);
+
+                donnees += id + "\t" + adresse + "\t" + etat + "\t" + loyer;
+
+                if (afficherLocataire) {
+                    donnees += "\tLocataire : ";
+                    int cleLocataireBien = clesBien[i][2];
+                    if (cleLocataireBien != 0) {
+                        for (int j = 0; j <= compteurLocataire[0]; j++) {
+                            if (cleLocataireBien == idLocataire[j]) {
+                                String nom = formatageCourt(donneesLocataire[j][0]);
+                                String prenom = formatageCourt(donneesLocataire[j][1]);
+                                donnees += nom + "\t" + prenom + "\n";
+                            }
+                        }
+                    }
+                    else {
+                        donnees += "aucun\n";
+                    }
+                }
+                else{
+                    donnees += "\n";
+                }
+            }
+        }
+        return donnees;
+    }
 
 //    Méthodes de modification
 
@@ -604,12 +634,7 @@ class BaseDeDonnees {
                 locataireTrouve += id + "\t" + nom + "\t" + prenom + "\t" + adresse + "\t" + telephone + "\n";
             }
         }
-
-        if (locataireTrouve.equals("")) {
-            return "Aucun locataires trouvés";
-        } else {
-            return locataireTrouve;
-        }
+        return locataireTrouve;
     }
 
 //      methode de location
@@ -628,7 +653,15 @@ class BaseDeDonnees {
         String nom = scan.nextLine();
         System.out.print("Prenom : ");
         String prenom = scan.nextLine();
-        System.out.println(rechercheLocataireParNom(nom, prenom));
+        String locataireTrouve = rechercheLocataireParNom(nom, prenom);
+
+        if (locataireTrouve.equals("")) {
+            System.out.println("Aucun locataire trouvé");
+            return;
+        }
+        else {
+            System.out.println(locataireTrouve);
+        }
 
         System.out.print("Id du locataire : ");
         int idLoc = scan.nextInt();
@@ -640,10 +673,20 @@ class BaseDeDonnees {
 
                 System.out.println("Entrez l'id du type recherché : ");
                 int idTypeBien = scan.nextInt();
-                afficherListeTypeLoc(idTypeBien);
+                String bienTrouve = afficherBienParType(idTypeBien, false);
+
+                if (bienTrouve.equals("")){
+                    System.out.println("Acun bien de ce type");
+                    return;
+                }
+                else {
+                    System.out.println(bienTrouve);
+                }
+
 
                 System.out.print("Id du bien a louer : ");
                 int idBien = scan.nextInt();
+
                 int numCaseBien = rechCaseIdBien(idBien);
                 if (idBienValide(idBien)) {
                     clesBien[numCaseBien][2] = idLoc;
@@ -663,6 +706,7 @@ class BaseDeDonnees {
      * Méthode permetant de libéré un bien de son locataire
      */
     void libBien() {
+        afficherBienLoue();
         System.out.print("Id du bien a liberer : ");
         int idBien = scan.nextInt();
         int numCaseBien = rechCaseIdBien(idBien);
@@ -701,7 +745,7 @@ class BaseDeDonnees {
      * @return
      *  Un boolean de valeur true si le bien est loué et false dans le cas contraire
      */
-    boolean loue(int numCaseBien) {
+    boolean estLoue(int numCaseBien) {
         return (clesBien[numCaseBien][2] != 0);
     }
 

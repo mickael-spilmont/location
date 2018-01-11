@@ -24,11 +24,6 @@ class Menu {
     /**
      *
      */
-    int id = 0;
-
-    /**
-     *
-     */
     String nomLocataire = "";
 
     /**
@@ -174,9 +169,10 @@ class Menu {
                 menu2();
                 break;
             case 3://afficher la liste des biens d'un type particulier pariculier avec le nom du locataire s'il y a lieu
+                base.afficherType();
                 System.out.print("Id du type : ");
                 int idType = scan.nextInt();
-                base.afficherListeTypeLoc(idType);
+                System.out.println(base.afficherBienParType(idType, true));
                 menu2();
                 break;
             case 0://retour
