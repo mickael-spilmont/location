@@ -11,18 +11,48 @@ class Menu {
      */
     String fichierDeTravailEnCour = "";
 
+    /**
+     *
+     */
     Scanner scan = new Scanner(System.in);
+
+    /**
+     *
+     */
     int indice = 0;
 
-
+    /**
+     *
+     */
     int id = 0;
+
+    /**
+     *
+     */
     String nomLocataire = "";
+
+    /**
+     *
+     */
     String prenomLocataire = "";
+
+    /**
+     *
+     */
     String adresseLocataire = "";
+
+    /**
+     *
+     */
     String telephoneLocataire = "";
 
 //    Opérations sur la base
 
+    /**
+     * Méthode permettanmt le chargement d'un fichier de sauvegarde, elle remplie la variable fichierDeTravailEnCour,
+     * afin de proposer le même fichier lors de la sauvegarde
+     * @throws IOException
+     */
     void chargement() throws IOException {
         GestionFichier fichier = new GestionFichier();
         System.out.println("liste des fichiers");
@@ -72,6 +102,10 @@ class Menu {
 
 //    Menu
 
+    /**
+     *
+     * @throws IOException
+     */
     void menuPrincipal() throws IOException {
         System.out.println("\n----------------------------------\nLoSC (Locataires Sympas et Calmes)\n----------------------------------");
         System.out.println("1) Gestion des locataires (defaut)\n2) Gestion des biens\n3) Gestion des types de biens\n4) Gestion des locations\n5) sauvegarde/restauration des données\n0) Quitter le progamme");
@@ -96,6 +130,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu1() throws IOException {
         System.out.println("\n----------------------\nGestion des locataires\n----------------------\n1) Ajouter, modifier ou supprimer un locataire (defaut)\n2) afficher la liste des locataire par ordre alphabétique\n3) afficher la liste des locataires ayant loué un type de bien pariculier\n4) rechercher le liste des locations d'un locataire particulier\n0) retour");
         switch (scan.nextInt()) {
@@ -124,6 +162,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu2() throws IOException {
         System.out.println("\n-----------------\nGestion des biens\n-----------------\n1) Ajouter, modifier ou supprimer un bien (defaut)\n2) afficher la liste des biens par ordre alphabétique\n3) afficher la liste des biens d'un type particulier pariculier avec le nom du locataire s'il y a lieu\n0) retour");
         switch (scan.nextInt()) {
@@ -145,6 +187,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu3() throws IOException {
         System.out.println("\n--------------------------\nGestion des types de biens\n--------------------------\n1) Ajouter, modifier ou supprimer un type de bien (defaut)\n2) afficher la liste des types de biens\n0) retour");
         switch (scan.nextInt()) {
@@ -160,6 +206,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu4() throws IOException {
         System.out.println("\n---------------------\nGestion des locations\n---------------------\n1) Louer un bien (defaut)\n2) libérer un bien\n3) afficher la liste des biens loués\n4) afficher la liste des locataires de biens\n5) afficher la liste des locataires ayant au moin un bien en cours de location\n0) retour");
         switch (scan.nextInt()) {
@@ -188,6 +238,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu5() throws IOException {
         System.out.println("\n------------------------------------------------------\nsauvegarde/restauration des données\n------------------------------------------------------\n1) Sauvegarde (defaut)\n2) Restauration\n0) retour");
         switch (scan.nextInt()) {
@@ -204,6 +258,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu11() throws IOException {
         System.out.println("\n-----------------------------------------------------\nAjouter, modifier ou supprimer un locataire\n-----------------------------------------------------\n1) Ajouter un locataire (defaut)\n2) Modifier un locataire\n3) Supprimer un locataire\n0)retour");
 
@@ -241,6 +299,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu21() throws IOException {
         System.out.println("\n-----------------------------------------------------\nAjouter, modifier ou supprimer un bien\n-----------------------------------------------------\n1) Ajouter un bien (defaut)\n2) Modifier un bien\n3) Supprimer un bien\n0)retour");
 
@@ -278,6 +340,10 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     void menu31() throws IOException {
         System.out.println("\n-----------------------------------------------------\nAjouter, modifier ou supprimer un type de bien\n-----------------------------------------------------\n1) Ajouter un type de bien (defaut)\n2) Modifier un type de bien\n3) Supprimer un type de bien \n0)retour");
 
@@ -309,6 +375,11 @@ class Menu {
         }
     }
 
+    /**
+     *
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         Menu monMenu = new Menu();
         /*BaseDeDonnees base=new BaseDeDonnees;

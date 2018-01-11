@@ -94,29 +94,6 @@ public class GenerateurDeBase {
         }
     }
 
-//    Erreur étrange demander à M Atamenia
-//    GenerateurDeBase() throws IOException{
-//        String ligne;
-//        BufferedReader br;
-//
-//        br = new BufferedReader(new FileReader("donees/donees.bin"));
-//
-//        for (int i = 0 ; i < 500 ; i++){
-//
-//            ligne = br.readLine();
-//            int j = 0;
-//            for (String str : ligne.split(";")){
-//                nomsPrenoms[i][j] = str;
-//                j++;
-//            }
-//        }
-//
-//        for (int k = 0 ; k < 235 ; k++){
-//            rues[k] = br.readLine();
-//        }
-//    }
-
-
 //    Génération aléatoire (regroupe toute les méthodes relatives à la génération alétoire de données)
 
     /**
@@ -320,7 +297,8 @@ public class GenerateurDeBase {
         sc.nextLine();
         String nomFichier = sc.nextLine();
 
-        //objetFichier = new GestionFichier(nomFichier);
-        //objetFichier.ecrire(base);
+        objetFichier = new GestionFichier();
+        objetFichier.setCheminFichier(nomFichier);
+        objetFichier.ecrire(base);
     }
 }

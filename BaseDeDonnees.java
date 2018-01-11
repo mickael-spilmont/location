@@ -5,6 +5,7 @@
  * @author Duhamel Alexandre ; Spilmont Mickael
  */
 
+// import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -180,6 +181,12 @@ class BaseDeDonnees {
         System.out.println("locataire supprime");
     }
 
+    /**
+     * Méthode qui permet de supprimer le bien désigne par son nuéro de case rentré en paramètre, elle vérifie si le bien
+     * est en location et empêche sa suppression le cas échéant
+     * @param numCase
+     *  Numéro de la case du bien
+     */
     void supprimerBien(int numCase) {
         if (clesBien[numCase][2] == 0) {
             int dernierBien = compteurBien[0];
@@ -202,6 +209,11 @@ class BaseDeDonnees {
         } else System.out.println("suppression impossible, le bien est en location");
     }
 
+    /**
+     * Méthode qui permet de supprimer un type de bien désigné par son numéro de case
+     * @param numCase
+     *  numéro de case du type de bien
+     */
     void supprimerType(int numCase) {
 
         int dernierType = compteurType[0];
@@ -216,6 +228,70 @@ class BaseDeDonnees {
 //    Méthodes de requêtes
 
     /**
+     * Méthode qui permet de formatage de l'Id entré sous forme de de chaine, afin d'alligner tout les id lors de
+     * l'affichage
+     * @param id
+     *  Un Id sous forme de chaine
+     * @return
+     *  Le même Id formaté
+     */
+    String formatageId(String id){
+        if (id.length() < 10){
+            id = "  " + id;
+        }
+        else if (id.length() < 100){
+            id = " " + id;
+        }
+        return id;
+    }
+
+    /**
+     * Méthode qui vérifie si une chaine ne dépasse pas 12 caractères, dans le cas contraire elle ne garde que les 9
+     * premiers caractères et place "..." à la fin.
+     * Si la chaine est plus petite que 12 caractères elle comble avec des espaces
+     * Elle est utilisé pour formater les nom prénom et état des bien avant affichage
+     * @param chaine
+     *  La chaine à formater
+     * @return
+     *  La chaine fixée à 12 caractères
+     */
+    String formatageCourt(String chaine){
+        int taille = chaine.length();
+
+        if (taille > 12){
+            chaine = chaine.substring(0, 9) + "...";
+        }
+        else if (taille < 12){
+            while (taille < 12){
+                chaine += " ";
+                taille = chaine.length();
+            }
+        }
+        return chaine;
+    }
+
+    /**
+     * Méthode qui vérifie si une chaine ne dépasse pas 51 caractères, dans le cas contraire elle ne garde que les 24
+     * premiers et 24 dernier, puis elle place "..." au millieu.
+     * Elle est utilisé pour formater les adresse avant affichage
+     * @param chaine
+     * @return
+     */
+    String formatageLong(String chaine){
+        int taille = chaine.length();
+
+        if (taille > 51){
+            chaine = chaine.substring(0, 23) + "..." + chaine.substring(chaine.length() - 24);
+        }
+        else if (taille < 51){
+            while (chaine.length() < 51){
+                chaine += " ";
+            }
+        }
+        return chaine;
+    }
+
+    /**
      * Affiche les info du locataire ciblé
      * @param numCase
      * numéro de la case du tableau contenant du locataire concerné
@@ -225,15 +301,22 @@ class BaseDeDonnees {
     String afficherInfosLocataire(int numCase) {
         String infos = "";
 
-        infos += "ID : " + idLocataire[numCase] + "\t";
-        infos += "Nom : " + donneesLocataire[numCase][0] + "\t";
-        infos += "Prenom : " + donneesLocataire[numCase][1] + "\t";
-        infos += "Adresse : " + donneesLocataire[numCase][2] + "\t";
+        infos += "ID : " + idLocataire[numCase] + "\n";
+        infos += "Nom : " + donneesLocataire[numCase][0] + "\n";
+        infos += "Prenom : " + donneesLocataire[numCase][1] + "\n";
+        infos += "Adresse : " + donneesLocataire[numCase][2] + "\n";
         infos += "Téléphone : " + donneesLocataire[numCase][3] + "\n";
 
         return infos;
     }
 
+    /**
+     * Affiche les infos détaillées du bien ciblé
+     * @param numCase
+     *  numéro de case du bien
+     * @return
+     *  Les infos concernant le bien sous forme de string
+     */
     String afficherInfosBien(int numCase) {
         String infos = "";
 
@@ -260,6 +343,9 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Méthode qui affiche la liste des locataires de biens
+     */
     void afficherListeLocBien() {
         for (int i = 0; i < idBienLocataire.length; i++) {
             if (idBienLocataire[i][0] != 0 || idBienLocataire[i][1] != 0 || idBienLocataire[i][2] != 0 || idBienLocataire[i][3] != 0 || idBienLocataire[i][4] != 0) {
@@ -268,6 +354,10 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Méthode qui affiche la liste des locataire louant un type de bien particulier
+     * @param idLoc
+     */
     void afficherListeLocPart(int idLoc) {
         int numCaseLoc = rechCaseIdLoc(idLoc);
         int numCaseBien = 0;
@@ -282,13 +372,13 @@ class BaseDeDonnees {
         System.out.println("Adresse\tlocataire");
         for (int i = 0; i < clesBien.length; i++) {
             if (clesBien[i][1] == idType) {
-                System.out.println(donneesBien[i][0] + "\t" + donneesLocataire[rechCaseIdLoc(clesBien[i][2])][0]);
+                System.out.println(donneesBien[i][0]); //"\t" + donneesLocataire[rechCaseIdLoc(clesBien[i][2])][0]);
             }
         }
     }
 
     /**
-     * Affiche la liste des locataire par ordre alphabetique, ainçi que le totalité de leurs identifiants
+     * Affiche la liste des locataire par ordre alphabetique, ainsi que le totalité de leurs identifiants
      * Affiche la liste directement sur le terminal
      */
     String afficherAlphaLoc() {
@@ -311,19 +401,32 @@ class BaseDeDonnees {
         //System.out.println("Id\tNom\tPrenom\tadresse\ttelephone");
         String resultat = "";
         for (final String[] s : data) {
-            resultat += ("Id : " + s[4] + "\tNom : " + s[0] + "\tPrenom : " + s[1] + "\tAdresse : " + s[2] + "\tTelephone : " + s[3] + "\n");
+            String id = formatageId(s[4]);
+            String nom = formatageCourt(s[0]);
+            String prenom = formatageCourt(s[1]);
+            String adreresse = formatageLong(s[2]);
+            String telephone = s[3];
+            resultat += id + "\t" + nom + "\t" + prenom + "\t" + adreresse + "\t" + telephone + "\n";
         }
         return resultat;
     }
 
+    /**
+     * Affiche la liste des biens par ordre alphabétique
+     * Elle commence par générer un tableau temporaire qui serras trié, celà évite de mélanger toute les information des
+     * tableaux constituants la base
+     */
     void afficherAlphaBien() {
-        String data[][] = new String[(compteurBien[0]) + 1][3];
+        // Création du tableau temporaire
+        String data[][] = new String[(compteurBien[0]) + 1][4];
         for (int i = 0; i < data.length; i++) {
-            data[i][0] = donneesBien[i][0];
-            data[i][1] = donneesBien[i][1];
-            data[i][2] = Integer.toString(clesBien[i][0]);
-            //data[i][3]=nomType[rechCaseIdType(clesBien[i][1])];
+            data[i][0]=nomType[rechCaseIdType(clesBien[i][1])];
+            data[i][1] = donneesBien[i][0];
+            data[i][2] = donneesBien[i][1];
+            data[i][3] = Integer.toString(clesBien[i][0]);            
         }
+
+        // le tableau temporaire est trié alphabétiquement par type
         Arrays.sort(data, new Comparator<String[]>() {
             @Override
             public int compare(final String[] entry1, final String[] entry2) {
@@ -332,12 +435,17 @@ class BaseDeDonnees {
                 return time1.compareTo(time2);
             }
         });
-        System.out.println("adresse+\tId\tadresse\tetat");
+
+        // affichage du tableau résultant
+        System.out.println("type\tId\tadresse\tetat");
         for (final String[] s : data) {
-            System.out.println(s[2] + "\t" + s[0] + "\t" + s[1]);
+            System.out.println(s[0] + "\t" + s[3] + "\t" + s[1] + "\t" + s[2]);
         }
     }
 
+    /**
+     * Affiche tous les types de bien
+     */
     void afficherType() {
         System.out.println("id\tdesignation");
         for (int i = 0; i < compteurType[0] + 1; i++) {
@@ -345,6 +453,9 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Affiche tout les biens en cour de location
+     */
     void afficherBienLoue() {
         System.out.println("Id\tadresse");
         for (int i = 0; i < clesBien.length; i++) {
@@ -354,8 +465,23 @@ class BaseDeDonnees {
         }
     }
 
+//    String afficherBienParType(int id){
+//        String bienTrouve = "";
+//
+//        for (int i = 0 ;  i <= compteurBien[0] ; i++){
+//            if (clesBien[i][1] == id){
+//
+//            }
+//        }
+//    }
+
 //    Méthodes de modification
 
+    /**
+     * Méthode qui permet la modification des informations du locataire désigé par son identifiant passé en paramètre
+     * @param id
+     *  Id du locataire
+     */
     void modifierLocataire(int id) {
         int numCase = rechCaseIdLoc(id);
         System.out.println("Modification du locataire (Laisser vide pour ne pas modifier)");
@@ -374,6 +500,11 @@ class BaseDeDonnees {
         System.out.println("changements enregistés");
     }
 
+    /**
+     * Méthode qui permet la modification des informations du type désigé par son identifiant passé en paramètre
+     * @param id
+     *  id du type
+     */
     void modifierType(int id) {
         System.out.println(rechCaseIdType(id));
         int numCase = rechCaseIdType(id);
@@ -381,6 +512,11 @@ class BaseDeDonnees {
         nomType[numCase] = scan.nextLine();
     }
 
+    /**
+     * Méthode qui permet la modification des informations du bien désigé par son identifiant passé en paramètre
+     * @param id
+     *  id du bien
+     */
     void modifierBien(int id) {
         int numCase = rechCaseIdBien(id);
         System.out.println("Modification du bien (Laisser vide pour ne pas modifier)");
@@ -399,6 +535,13 @@ class BaseDeDonnees {
 
 //     Méthode de recherche
 
+    /**
+     * Méthode qui permet de trouver l'emplacement d'un bien dans le tableau, à partir de son id
+     * @param id
+     *  id du bien
+     * @return
+     *  Indice du bien, ou -9 si non trouvé
+     */
     int rechCaseIdBien(int id) {
         for (int i = 0; i < clesBien.length; i++) {
             if (id == clesBien[i][0]) return i;
@@ -406,6 +549,13 @@ class BaseDeDonnees {
         return -9;//id non trouvé
     }
 
+    /**
+     * Méthode qui permet de trouver l'emplacement d'un type dans le tableau, à partir de son id
+     * @param id
+     *  id du type
+     * @return
+     *  Indice du type, ou -9 si non trouvé
+     */
     int rechCaseIdType(int id) {
         for (int i = 0; i < idType.length; i++) {
             if (id == idType[i]) return i;
@@ -413,6 +563,13 @@ class BaseDeDonnees {
         return -9;//id non trouvé
     }
 
+    /**
+     * Méthode qui permet de trouver l'emplacement d'un locataire dans le tableau, à partir de son id
+     * @param id
+     *  id du locataire
+     * @return
+     *  Indice du locataire, ou -9 si non trouvé
+     */
     int rechCaseIdLoc(int id) {
         for (int i = 0; i < idLocataire.length; i++) {
             if (id == idLocataire[i]) return i;
@@ -426,83 +583,65 @@ class BaseDeDonnees {
      * ce tableau avec les indices d'emplacements des locataire trouvés.
      * Elle appelle ensuite la méthode "compactageTableauRecherche" pour avoir un tableau qui fait uniquement la taille
      * Si aucun locataire n'est trouvé le tableau retourné est de taille 0
-     * @param nom
+     * @param nomLocataire
      *  Le nom du locataire
-     * @param prenom
+     * @param prenomLocataire
      *  Le prénom du locataire
      * @return
      *  La liste des emplacements des locataires trouvés
      */
-    String rechercheLocataireParNom(String nom, String prenom) {
-        String locatairesTrouves = "";
+    String rechercheLocataireParNom(String nomLocataire, String prenomLocataire) {
+        String locataireTrouve = "";
 
         for (int i = 0; i <= compteurLocataire[0]; i++) {
-            if (donneesLocataire[i][0].equals(nom) || donneesLocataire[i][1].equals(prenom)) {
-                locatairesTrouves += afficherInfosLocataire(i);
+            if (donneesLocataire[i][0].equals(nomLocataire) || donneesLocataire[i][1].equals(prenomLocataire)) {
+                String id = Integer.toString(idLocataire[i]);
+                id = formatageId(id);
+                String nom = formatageCourt(donneesLocataire[i][0]);
+                String prenom = formatageCourt(donneesLocataire[i][1]);
+                String adresse = formatageLong(donneesLocataire[i][2]);
+                String telephone = donneesLocataire[i][3];
+                locataireTrouve += id + "\t" + nom + "\t" + prenom + "\t" + adresse + "\t" + telephone + "\n";
             }
         }
 
-        if (locatairesTrouves.equals("")) {
+        if (locataireTrouve.equals("")) {
             return "Aucun locataires trouvés";
         } else {
-            return locatairesTrouves;
+            return locataireTrouve;
         }
-    }
-
-
-    String rechercheBien(String... args) {
-        String bienTrouve = "";
-
-        for (String mot : args) {
-
-            for (int i = 0; i <= compteurBien[0]; i++) {
-                String donnees[] = extraireDonneesBien(i);
-                int nbMotCleTrouve = 0;
-
-                for (String motCle : args) {
-                    for (String donneeAComparer : donnees) {
-                        if (mot.equals(donneeAComparer)) {
-                            nbMotCleTrouve++;
-                        }
-                    }
-                }
-
-                if (nbMotCleTrouve == args.length) {
-                    bienTrouve += afficherInfosBien(i);
-                }
-            }
-        }
-
-        if (bienTrouve.equals("")) {
-            return "Aucun bien trouvé";
-        } else {
-            return bienTrouve;
-        }
-    }
-
-    String[] extraireDonneesBien(int numCaseBien) {
-        String adresseBien[] = donneesBien[numCaseBien][0].split(" ");
-
-        String donnees[] = new String[adresseBien.length + 2];
-
-        for (int i = 0; i < adresseBien.length; i++) {
-            donnees[i] = adresseBien[i];
-        }
-
-        donnees[adresseBien.length] = nomType[clesBien[numCaseBien][1]];
-        donnees[adresseBien.length + 1] = donneesBien[numCaseBien][1];
-
-        return donnees;
     }
 
 //      methode de location
 
+    /**
+     * Méthode qui permet la mise en location d'un bien.
+     * Elle commence par effectuer un filtrage des locataire par nom à l'aide de la méthode "rechercheLocataireParNom"
+     * Ensuite le locataire désigné par l'utilisateur à l'aide de son id, est controllé afin de  afin de vérifier qu'il
+     * ne loue pas déja 5 biens
+     * Puis elle affiche la liste des type de bien afin d'éffectuer un nouveau filtrage par type de bien.
+     * Enfin si le bien est disponible à la location, le traitement de la demande est effectué
+     */
     void loueBien() {
+        System.out.println("Entrez le nom et/ou prenom du locataire (si inconu laissez vide) : ");
+        System.out.print("Nom : ");
+        String nom = scan.nextLine();
+        System.out.print("Prenom : ");
+        String prenom = scan.nextLine();
+        System.out.println(rechercheLocataireParNom(nom, prenom));
+
         System.out.print("Id du locataire : ");
         int idLoc = scan.nextInt();
         int numCaseLoc = rechCaseIdLoc(idLoc);
         if (idLocValide(idLoc)) {
             if (idBienLocataire[numCaseLoc][4] == 0) {
+                System.out.println("Quel type de bien souhaitez vous louer ?");
+                afficherType();
+
+                System.out.println("Entrez l'id du type recherché : ");
+                int idTypeBien = scan.nextInt();
+                afficherListeTypeLoc(idTypeBien);
+
                 System.out.print("Id du bien a louer : ");
                 int idBien = scan.nextInt();
                 int numCaseBien = rechCaseIdBien(idBien);
@@ -520,6 +659,9 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Méthode permetant de libéré un bien de son locataire
+     */
     void libBien() {
         System.out.print("Id du bien a liberer : ");
         int idBien = scan.nextInt();
@@ -546,7 +688,7 @@ class BaseDeDonnees {
      *  Emplacement libre du tableau "idBienLocataire"
      * @return
      */
-    String louerBien(int numCaseBien, int numCaseLocataire, int emplacmentLibreLocataire) {
+    String louerBienGenerateur(int numCaseBien, int numCaseLocataire, int emplacmentLibreLocataire) {
         clesBien[numCaseBien][2] = idLocataire[numCaseLocataire];
         idBienLocataire[numCaseLocataire][emplacmentLibreLocataire] = clesBien[numCaseBien][0];
         return "Le bien à correctement été mis en location";
@@ -584,6 +726,13 @@ class BaseDeDonnees {
         return emplacementVide;
     }
 
+    /**
+     * Méthode qui vérifie si un id de type est valide, et affiche "id du type non trouvé" si elle ne le trouve pas
+     * @param idType
+     *  L'id du type à valider
+     * @return
+     *  true si l'id est valide et false dans la cas contraire
+     */
     boolean idTypeValide(int idType) {
         if (rechCaseIdType(idType) != -9) return true;
         else {
@@ -592,6 +741,13 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Méthode qui vérifie si un id de bien est valide, et affiche "id du bien non trouvé" si elle ne le trouve pas
+     * @param idBien
+     *  L'id du bien à valider
+     * @return
+     *  true si l'id est valide et false dans la cas contraire
+     */
     boolean idBienValide(int idBien) {
         if (rechCaseIdBien(idBien) != -9) return true;
         else {
@@ -600,14 +756,18 @@ class BaseDeDonnees {
         }
     }
 
+    /**
+     * Méthode qui vérifie si un id de locataire est valide, et affiche "id du locataire non trouvé" si elle ne le trouve pas
+     * @param idLoc
+     *  L'id du locataire à valider
+     * @return
+     *  true si l'id est valide et false dans la cas contraire
+     */
     boolean idLocValide(int idLoc) {
         if (rechCaseIdLoc(idLoc) != -9) return true;
         else {
             System.out.println("id du locataire non trouvé");
             return false;
         }
-    }
-
-    public static void main(String[] args) {
     }
 }
