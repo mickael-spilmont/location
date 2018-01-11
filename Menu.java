@@ -130,7 +130,7 @@ class Menu {
      * @throws IOException
      */
     void menu1() throws IOException {
-        System.out.println("\n----------------------\nGestion des locataires\n----------------------\n1) Ajouter, modifier ou supprimer un locataire (defaut)\n2) afficher la liste des locataire par ordre alphabétique\n3) afficher la liste des locataires ayant loué un type de bien pariculier\n4) rechercher le liste des locations d'un locataire particulier\n0) retour");
+        System.out.println("\n----------------------\nGestion des locataires\n----------------------\n1) ajouter, modifier ou supprimer un locataire (defaut)\n2) afficher la liste des locataire par ordre alphabétique\n3) afficher la liste des locataires ayant loué un type de bien pariculier\n4) rechercher la liste des locations d'un locataire particulier\n0) retour");
         switch (scan.nextInt()) {
             case 2://afficher la liste des locataire par ordre alphabétique
                 System.out.print(base.afficherAlphaLoc());
