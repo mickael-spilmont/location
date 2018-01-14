@@ -12,32 +12,32 @@ class Menu {
     String fichierDeTravailEnCour = "";
 
     /**
-     *
+     *objet scanner
      */
     Scanner scan = new Scanner(System.in);
 
     /**
-     *
+     *contient l'indice d'un locataire,bien ou type de bien
      */
     int indice = 0;
 
     /**
-     *
+     *contient le nom du locataire
      */
     String nomLocataire = "";
 
     /**
-     *
+     *contient le prenom du locataire
      */
     String prenomLocataire = "";
 
     /**
-     *
+     *contient l'adresse d'un locataire
      */
     String adresseLocataire = "";
 
     /**
-     *
+     *contient le numero de telephone d'un locataire
      */
     String telephoneLocataire = "";
 
@@ -98,7 +98,7 @@ class Menu {
 //    Menu
 
     /**
-     *
+     *menu principal du progamme qui permet de choir entre les sous-menus du progamme, c'est a dire : gestion des locataires; gestion des biens; gestion des types de biens; gestion des locations; sauvegarde/restauration des données; quitter le programme
      * @throws IOException
      */
     void menuPrincipal() throws IOException {
@@ -126,11 +126,11 @@ class Menu {
     }
 
     /**
-     *
+     *menu de gestion des locataires, permet de choisir entre : Ajouter, modifier ou supprimer un locataire; afficher la liste des locataire par ordre alphabétique; afficher la liste des locataires ayant loué un type de bien pariculier; rechercher le liste des locations d'un locataire particulier; retour
      * @throws IOException
      */
     void menu1() throws IOException {
-        System.out.println("\n----------------------\nGestion des locataires\n----------------------\n1) ajouter, modifier ou supprimer un locataire (defaut)\n2) afficher la liste des locataire par ordre alphabétique\n3) afficher la liste des locataires ayant loué un type de bien pariculier\n4) rechercher la liste des locations d'un locataire particulier\n0) retour");
+        System.out.println("\n----------------------\nGestion des locataires\n----------------------\n1) Ajouter, modifier ou supprimer un locataire (defaut)\n2) afficher la liste des locataire par ordre alphabétique\n3) afficher la liste des locataires ayant loué un type de bien pariculier\n4) rechercher le liste des locations d'un locataire particulier\n0) retour");
         switch (scan.nextInt()) {
             case 2://afficher la liste des locataire par ordre alphabétique
                 System.out.print(base.afficherAlphaLoc());
@@ -158,7 +158,7 @@ class Menu {
     }
 
     /**
-     *
+     *menu de gestion des biens, permet de choisir entre : Ajouter, modifier ou supprimer un bien; afficher la liste des biens par ordre alphabétique; afficher la liste des biens d'un type particulier pariculier avec le nom du locataire s'il y a lieu; retour
      * @throws IOException
      */
     void menu2() throws IOException {
@@ -184,7 +184,7 @@ class Menu {
     }
 
     /**
-     *
+     *menu de gestion des types de biens, permet de choisir entre : Ajouter, modifier ou supprimer un type de bien; afficher la liste des types de biens; retour
      * @throws IOException
      */
     void menu3() throws IOException {
@@ -203,7 +203,7 @@ class Menu {
     }
 
     /**
-     *
+     *menu de gestion des locations, permet de choisir entre : Louer un bien; libérer un bien; afficher la liste des biens loués; afficher la liste des locataires de biens; afficher la liste des locataires ayant au moin un bien en cours de location; retour
      * @throws IOException
      */
     void menu4() throws IOException {
@@ -235,7 +235,7 @@ class Menu {
     }
 
     /**
-     *
+     *menu de sauvegarde/restauration, permet de choisir entre : Sauvegarde des données dans un ou plusieurs fichiers binaires, restauration des données dans les structures choisies à partir des fichiers de sauvegarde, retour
      * @throws IOException
      */
     void menu5() throws IOException {
@@ -255,7 +255,7 @@ class Menu {
     }
 
     /**
-     *
+     *sous-menu Ajouter, modifier ou supprimer un locataire, permet de choisire entre : Ajouter un locataire; Modifier un locataire; Supprimer un locataire; retour
      * @throws IOException
      */
     void menu11() throws IOException {
@@ -296,7 +296,7 @@ class Menu {
     }
 
     /**
-     *
+     *sous-menu Ajouter, modifier ou supprimer un bien, permet de choisire entre : Ajouter un bien; Modifier un bien; Supprimer un bien; retour
      * @throws IOException
      */
     void menu21() throws IOException {
@@ -337,7 +337,7 @@ class Menu {
     }
 
     /**
-     *
+     *sous-menu Ajouter, modifier ou supprimer un type de bien, permet de choisire entre : Ajouter un bien; Modifier un type de bien; Supprimer un type de bien; retour
      * @throws IOException
      */
     void menu31() throws IOException {
@@ -372,7 +372,7 @@ class Menu {
     }
 
     /**
-     *
+     *main du projet, lance le progamme en appelant le menu principal du projet
      * @param args
      * @throws IOException
      */
